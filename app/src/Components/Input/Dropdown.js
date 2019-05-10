@@ -13,7 +13,7 @@ export default class Dropdown extends Component {
 
   render() {
     return (<select value={this.state.value} onChange={(e) => this.onChanged(e)}>
-      {this.props.values.map(v => (<option id={v.key} value={v.key}>{v.value}</option>))}
+      {this.props.values.map(v => (<option id={v} value={v}>{v}</option>))}
     </select>);
   }
 }

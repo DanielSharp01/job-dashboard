@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-export default class Dropdown extends Component {
+export default class RadioButtons extends Component {
   constructor(props) {
     super(props);
     this.state = { value: this.props.value };
@@ -13,13 +13,13 @@ export default class Dropdown extends Component {
 
   render() {
     return (<Fragment>
-      {this.props.values.map(v => (<label id={v.key}>
+      {this.props.values.map(v => (<label id={v}>
         <input type="radio"
-          value={v.key}
+          value={v}
           name={this.props.name}
-          checked={v.key === this.state.value}
+          checked={v === this.state.value}
           onChange={e => this.onChecked(e)} />
-        {v.value}
+        {v}
       </label>))}
     </Fragment>);
   }

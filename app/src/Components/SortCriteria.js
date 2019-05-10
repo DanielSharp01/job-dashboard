@@ -2,20 +2,22 @@ import React from 'react';
 import Dropdown from './Input/Dropdown';
 import RadioButtons from "./Input/RadioButtons";
 
-export default function SortCriteria({ properties }) {
+export default function SortCriteria({ properties, selectedProperty, direction, upButton = true, downButton = true }) {
   return (<div className="sort-criteria">
-    <button className="close-button">x</button>
-    <button className="move-up-button">↑</button>
-    <button className="move-down-button">↓</button>
+    <div className="buttons">
+      <button className="close-button"><i class="fas fa-times"></i></button>
+      <button className="move-button" disabled={!upButton}><i class="fas fa-sort-up"></i></button>
+      <button className="move-button" disabled={!downButton}><i class="fas fa-sort-down"></i></button>
+    </div>
     <div className="property">
-      <span>Property:</span>
-      <Dropdown values={properties.map((p, i) => ({ key: i, value: p }))} value={0} />
+      <p><span>Property:</span></p>
+      <p><Dropdown values={properties} value={selectedProperty} /></p>
     </div>
     <div className="direction">
-      <span>Direction:</span>
-      <RadioButtons name="sort-direction"
-        value="asc"
-        values={[{ key: "asc", value: "Asc" }, { key: "desc", value: "Desc" }]} />
+      <p>Direction:</p>
+      <p><RadioButtons name="sort-direction"
+        value={direction}
+        values={["Asc", "Desc"]} /></p>
     </div>
   </div >);
 }

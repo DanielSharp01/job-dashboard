@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Filter from "./Components/Filter";
-import SortCriteria from './Components/SortCriteria';
-import CheckListInput from "./Components/Input/CheckListInput"
-import JobCard from './Components/JobCard';
+import App from "./Components/App";
+import "./index.scss";
 
 /*ReactDOM.render(<Filter
   properties={["Pay", "Tags", "Hours"]}
@@ -17,10 +15,4 @@ import JobCard from './Components/JobCard';
 
 // ReactDOM.render(<SortCriteria properties={["Pay", "Hours"]} />, document.getElementById('root'));
 
-ReactDOM.render(<JobCard name="C# developer"
-  pay={1500}
-  tags={["C#", "Asp.net", "MySQL"]}
-  organization={"org1"}
-  date={"2019.05.12."}
-  compact={false}
-/>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

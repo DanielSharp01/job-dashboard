@@ -1,12 +1,12 @@
 import React from 'react';
 import Dropdown from './Input/Dropdown';
 
-export default function Filter({ properties, component }) {
+export default function Filter({ properties, selectedProperty, component }) {
   return (<div className="filter">
-    <button className="close-button">x</button>
+    <button className="close-button"><i class="fas fa-times"></i></button>
     <div className="property">
-      <span>Property:</span>
-      <Dropdown values={properties.map((p, i) => ({ key: i, value: p }))} value={0} />
+      <p>Property:</p>
+      <p><Dropdown values={properties} value={selectedProperty} /></p>
     </div>
     <div className="value">
       {component}
