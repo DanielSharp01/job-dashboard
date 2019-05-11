@@ -16,7 +16,9 @@ function directionForProperty(property) {
     case "Min hours":
       return "Asc";
     case "Date":
-      return "Desc";
+      return "Desc"
+    default:
+      return "Asc";
   }
 }
 

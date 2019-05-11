@@ -1,6 +1,4 @@
 import React from 'react';
-import CheckListInput from "../Input/CheckListInput/CheckListInput";
-import RangeInput from "../Input/RangeInput/RangeInput";
 import "./FilterList.scss";
 import FilterContainer from '../Containers/FilterContainer';
 

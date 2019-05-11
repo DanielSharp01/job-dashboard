@@ -26,6 +26,8 @@ function getFilterPredicate(filter) {
           return job => includesAny(job.tags, values);
         case "none":
           return job => includesNone(job.tags, values);
+        default:
+          return job => false
       }
     case "Organization":
       values = filter.values.filter(v => v.checked).map(v => v.name);
@@ -34,6 +36,8 @@ function getFilterPredicate(filter) {
       return job => job.pay && job.pay >= filter.fromValue
     case "Min hours":
       return job => job.minHours && job.minHours >= filter.fromValue && job.minHours <= filter.toValue
+    default:
+      return job => false
   }
 }
 
@@ -49,6 +53,8 @@ function getSortComparator(sortCriteria) {
         b = moment(b.date);
         return a.isBefore(b) ? -1 : a.isAfter(b) ? 1 : 0
       }
+    default:
+      return (a, b) => 0;
   }
 }
 
@@ -57,13 +63,13 @@ function getSortComparatorWidthDir(sortCriteria) {
 }
 
 const filterJobs = (jobs, filters) => {
-  if (filters.length == 0) return jobs;
+  if (filters.length === 0) return jobs;
   jobs = jobs.filter(getFilterPredicate(filters[0]));
   return filterJobs(jobs, filters.slice(1));
 }
 
 const sortJobs = (jobs, sortCriteria) => {
-  if (sortCriteria.length == 0) return jobs;
+  if (sortCriteria.length === 0) return jobs;
   jobs = jobs.sort(getSortComparatorWidthDir(sortCriteria[sortCriteria.length - 1]));
   return sortJobs(jobs, sortCriteria.slice(0, -1));
 }

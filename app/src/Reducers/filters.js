@@ -47,6 +47,8 @@ function propertyFilterMap(property) {
         fromValue: 0,
         toValue: 40
       };
+    default:
+      return {}
   }
 }
 

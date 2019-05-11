@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Textbox from "../Textbox/Textbox";
 import { integers, positiveIntegers, floats, positiveFloats } from "../Textbox/validation";
 import "./RangeInput.scss";

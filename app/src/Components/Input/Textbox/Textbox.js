@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Textbox extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   onChanged(e) {
     if (this.props.validate && !this.props.validate(e.target.value)) return;
 
