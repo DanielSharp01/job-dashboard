@@ -1,0 +1,25 @@
+@import "../../colors.scss";
+@import "../Input/inputs.scss";
+
+.filter-list
+{
+  display: flex;
+  flex-direction: column;
+
+  button.add-element
+  {
+    @extend %slick-button;
+    align-self: center;
+    margin: 10px;
+    width: auto;
+    height: auto;
+    font-size: 20px;
+    color: $sidenavElemBg;
+
+    &:hover
+    {
+      color: $foreground;
+    }
+  }
+}
+

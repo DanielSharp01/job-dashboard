@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import uuidv4 from "uuid/v4";
 
 export default class RadioButtons extends Component {
   constructor(props) {
@@ -13,10 +14,10 @@ export default class RadioButtons extends Component {
 
   render() {
     return (<Fragment>
-      {this.props.values.map(v => (<label id={v}>
+      {this.props.values.map(v => (<label key={v}>
         <input type="radio"
           value={v}
-          name={this.props.name}
+          name={uuidv4()}
           checked={v === this.state.value}
           onChange={e => this.onChecked(e)} />
         {v}

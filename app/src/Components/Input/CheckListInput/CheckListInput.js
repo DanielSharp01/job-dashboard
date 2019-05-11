@@ -1,6 +1,7 @@
-import React, { Fragment, Component } from 'react';
-import Textbox from './Textbox';
-import Checkbox from "./Checkbox";
+import React, { Component } from 'react';
+import Textbox from '../Textbox/Textbox';
+import Checkbox from "../Checkbox/Checkbox";
+import "./CheckListInput.scss";
 
 export default class CheckListInput extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export default class CheckListInput extends Component {
           list.map((v, i) => (
             <li className="list-item" key={i}>
               <Checkbox checked={true}>{v}</Checkbox>
-              {(!fixed && <button className="delete-button"><i class="fas fa-times"></i></button>)}
+              {(!fixed && <button className="delete-button"><i className="fas fa-times"></i></button>)}
             </li>
           ))
         }

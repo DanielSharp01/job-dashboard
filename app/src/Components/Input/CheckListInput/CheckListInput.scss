@@ -1,0 +1,24 @@
+@import "../inputs.scss";
+
+.checklist-input
+{
+  ul
+  {
+    list-style: none;
+    padding: 0;
+  }
+  li
+  {
+    position: relative;
+    margin: 8px 0;
+
+    button
+    {
+      @extend %slick-button;
+      font-size: 0.6em;
+      position:absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import React from 'react';
-import Dropdown from './Input/Dropdown';
+import Dropdown from '../Input/Dropdown/Dropdown';
+import "./Filter.scss";
 
 export default function Filter({ properties, selectedProperty, component }) {
   return (<div className="filter">
-    <button className="close-button"><i class="fas fa-times"></i></button>
+    <button className="close-button"><i className="fas fa-times"></i></button>
     <div className="property">
       <p>Property:</p>
       <p><Dropdown values={properties} value={selectedProperty} /></p>

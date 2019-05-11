@@ -1,0 +1,47 @@
+@import "../../colors.scss";
+
+input, select
+{
+  background: $inputBg;
+  border: none;
+  padding: 4px;
+}
+
+%slick-button
+{
+  display: flex;
+  background: none;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: $sidenavXFg;
+
+  &:hover
+  {
+    color: $foreground;
+    cursor: pointer;
+  }
+}
+
+.textbox-with-button
+{
+  display: flex;
+  flex-direction: row;
+
+  input
+  {
+    flex: 1;
+  }
+
+  button
+  {
+    flex: 0;
+  }
+}
+
+select
+{
+  width: 100%;
+}

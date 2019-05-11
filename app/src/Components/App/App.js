@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import Header from "./Header";
-import Sidenav from "./Sidenav";
-import CardGrid from "./CardGrid";
+import Header from "../Header/Header";
+import Sidenav from "../Sidenav/Sidenav";
+import CardGrid from "../CardGrid/CardGrid";
+import "./App.scss";
 
 export default function App() {
   return <Fragment>

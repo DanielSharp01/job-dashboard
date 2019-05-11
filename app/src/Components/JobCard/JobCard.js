@@ -1,4 +1,5 @@
 import React from 'react';
+import "./JobCard.scss";
 
 export default function JobCard({ name, pay, tags, organization, date, compact }) {
   return <div className={"job-card" + (compact ? " compact" : "")}>

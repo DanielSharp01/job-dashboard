@@ -1,7 +1,8 @@
 import React from 'react';
-import Filter from "./Filter";
-import CheckListInput from "./Input/CheckListInput";
-import RangeInput from "./Input/RangeInput";
+import Filter from "../Filter/Filter";
+import CheckListInput from "../Input/CheckListInput/CheckListInput";
+import RangeInput from "../Input/RangeInput/RangeInput";
+import "./FilterList.scss";
 
 export default function FilterList({ filters = [
   {
@@ -15,6 +16,7 @@ export default function FilterList({ filters = [
 ] }) {
   return <div className="filter-list">
     <h2>Filters</h2>
-    {filters.map(filter => <Filter {...filter} />)}
+    {filters.map((filter, i) => <Filter key={i} {...filter} />)}
+    <button className="add-element"><i className="fas fa-plus-circle"></i></button>
   </div>
 }

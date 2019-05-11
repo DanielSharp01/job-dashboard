@@ -1,6 +1,7 @@
 import React from 'react';
-import FilterList from './FilterList';
-import SortList from './SortList';
+import FilterList from '../FilterList/FilterList';
+import SortList from '../SortList/SortList';
+import "./Sidenav.scss";
 
 export default function Sidenav() {
   return <div className="sidenav">
