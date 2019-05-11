@@ -9,14 +9,23 @@ import uuidv4 from "uuid/v4";
 
 export const properties = ["Pay", "Min hours"];
 
+function directionForProperty(property) {
+  switch (property) {
+    case "Pay":
+      return "Desc";
+    case "Min hours":
+      return "Asc";
+  }
+}
+
 export default (state = [], action) => {
   switch (action.type) {
     case ADD_SORT_CRITERIA:
-      return [...state, { id: uuidv4(), property: properties[0], direction: "Asc" }]
+      return [...state, { id: uuidv4(), property: properties[0], direction: directionForProperty(properties[0]) }]
     case CHANGE_SORT_CRITERIA_PROPERTY:
       return [
         ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], { property: action.property }),
+        Object.assign({}, state[action.index], { property: action.property, direction: directionForProperty(action.property) }),
         ...state.slice(action.index + 1)
       ];
     case CHANGE_SORT_CRITERIA_DIRECTION:
