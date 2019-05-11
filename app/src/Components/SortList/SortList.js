@@ -1,14 +1,14 @@
 import React from 'react';
-import SortCriteria from '../SortCriteria/SortCriteria';
 import "./SortList.scss";
+import SortContainer from '../Containers/SortContainer';
 
-export default function SortList({ orderBy = [
-  { properties: ["Pay", "Hours"], selectedProperty: "Pay", direction: "Asc" },
-  { properties: ["Pay", "Hours"], selectedProperty: "Hours", direction: "Asc" }
-] }) {
+export default function SortList({ sortCriteria, add }) {
   return <div className="sort-list">
     <h2>Order by</h2>
-    {orderBy.map((sort, i) => <SortCriteria key={i} {...sort} upButton={i !== 0} downButton={i !== orderBy.length - 1} />)}
-    <button className="add-element"><i className="fas fa-plus-circle"></i></button>
+    {sortCriteria.map((s, i) =>
+      <SortContainer
+        key={s.id}
+        index={i} />)}
+    <button className="add-element" onClick={() => add()}><i className="fas fa-plus-circle"></i></button>
   </div>
 }

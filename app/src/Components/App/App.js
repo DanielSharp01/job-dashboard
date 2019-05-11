@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Header from "../Header/Header";
 import Sidenav from "../Sidenav/Sidenav";
-import CardGrid from "../CardGrid/CardGrid";
+import JobContainer from "../Containers/JobContainer";
 import "./App.scss";
 
 export default function App() {
@@ -9,7 +9,7 @@ export default function App() {
     <Header />
     <div className="wrapper">
       <Sidenav />
-      <CardGrid />
+      <JobContainer />
     </div>
   </Fragment>
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Textbox from '../Textbox/Textbox';
-import Checkbox from "../Checkbox/Checkbox";
 import "./CheckListInput.scss";
 
 export default class CheckListInput extends Component {
@@ -13,22 +12,32 @@ export default class CheckListInput extends Component {
     this.setState({ newItem: text });
   }
 
+  onAddButtonClicked() {
+    this.props.onAdd && this.props.onAdd(this.state.newItem)
+    this.setState({ newItem: "" });
+  }
+
   render() {
-    const { fixed, list, onAdd } = this.props;
+    const { fixed, list, onRemove, onChecked } = this.props;
     return (<div className="checklist-input">
       <ul>
         {
-          list.map((v, i) => (
-            <li className="list-item" key={i}>
-              <Checkbox checked={true}>{v}</Checkbox>
-              {(!fixed && <button className="delete-button"><i className="fas fa-times"></i></button>)}
+          list.map(v => (
+            <li className="list-item" key={v.id}>
+              <label>
+                <input type="checkbox" checked={v.checked} onChange={() => onChecked && onChecked(v.index)} />
+                {v.name}
+              </label>
+              {(!fixed && <button className="delete-button" onClick={() => onRemove && onRemove(v.index)}>
+                <i className="fas fa-times"></i>
+              </button>)}
             </li>
           ))
         }
       </ul >
       {!fixed && <div className={"textbox-with-button"}>
-        <Textbox onChanged={(text) => this.onTextChanged(text)} />
-        <button onClick={e => onAdd && onAdd(this.state.newItem)} disabled={this.state.newItem === ""}>Add</button>
+        <Textbox value={this.state.newItem} onChange={(text) => this.onTextChanged(text)} />
+        <button onClick={() => this.onAddButtonClicked()} disabled={this.state.newItem === ""}>Add</button>
       </div>
       }
     </div >);

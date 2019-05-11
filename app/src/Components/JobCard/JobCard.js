@@ -1,7 +1,12 @@
 import React from 'react';
 import "./JobCard.scss";
 
-export default function JobCard({ name, pay, tags, organization, date, compact }) {
+export default function JobCard({ name, pay, tags, organization, minHours, maxHours, date, compact }) {
+  let hoursClass = (!minHours && minHours !== 0) ? "gray" :
+    minHours <= 15 ? "green" :
+      minHours <= 20 ? "yellow" :
+        minHours <= 25 ? "orange" : "red";
+
   return <div className={"job-card" + (compact ? " compact" : "")}>
     <div className="top-wrapper">
       <div className="header">
@@ -13,7 +18,12 @@ export default function JobCard({ name, pay, tags, organization, date, compact }
       </div>
     </div>
     <div className="footer">
-      <div className="organization">{organization}</div>
+      <div className="footer-wrapper">
+        <div className="organization">{organization}</div>
+        {(minHours || maxHours) && <div className={`hours ${hoursClass}`}>
+          {minHours !== 0 && !minHours ? "?" : minHours}-{maxHours !== 0 && !maxHours ? "?" : maxHours} hrs
+        </div>}
+      </div>
       <span className="date">{date}</span>
     </div>
   </div>

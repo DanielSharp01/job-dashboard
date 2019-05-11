@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 400px;
-  height: 200px;
+  height: 240px;
   background:  $elementBg;
   box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
   margin: 16px;
@@ -60,11 +60,50 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
+    .footer-wrapper
+    {
+      display: flex;
+      flex-direction: row;
+    }
 
     .organization
     {
       background: $orgBg;
       padding: 10px 20px;
+      margin: 2px;
+    }
+
+    .hours
+    {
+      padding: 10px 20px;
+      margin: 2px;
+
+      &.gray
+      {
+        background: #494949;
+      }
+      
+      &.green
+      {
+        background: #28900e;
+      }
+
+      &.yellow
+      {
+        background: #8d8519;
+      }
+
+      &.orange
+      {
+        background: #b6760f;
+      }
+
+      &.red
+      {
+        background: #900e0e;
+      }
     }
 
     .date
