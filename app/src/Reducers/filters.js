@@ -5,7 +5,8 @@ import {
   ADD_LIST_FILTER_VALUE,
   TOGGLE_LIST_FILTER_VALUE,
   REMOVE_LIST_FILTER_VALUE,
-  CHANGE_RANGE_FILTER_VALUE
+  CHANGE_RANGE_FILTER_VALUE,
+  CHANGE_LIST_FILTER_INCLUDE_TYPE
 } from "../Actions";
 
 import uuidv4 from "uuid/v4";
@@ -17,13 +18,12 @@ function propertyFilterMap(property) {
     case "Tags":
       return {
         type: "list",
-        fixed: false,
+        includeType: "all",
         values: []
       };
     case "Organization":
       return {
-        type: "list",
-        fixed: true,
+        type: "fixed-list",
         values: [{ id: uuidv4(), name: "Müisz", checked: true }, { id: uuidv4(), name: "Schönherz", checked: true }]
       };
     case "Pay":
@@ -85,6 +85,12 @@ export default (state = [], action) => {
               ...values.slice(action.valueIndex + 1)
             ]
           }),
+        ...state.slice(action.index + 1)
+      ];
+    case CHANGE_LIST_FILTER_INCLUDE_TYPE:
+      return [
+        ...state.slice(0, action.index),
+        Object.assign({}, state[action.index], { includeType: action.includeType }),
         ...state.slice(action.index + 1)
       ];
     case REMOVE_LIST_FILTER_VALUE:

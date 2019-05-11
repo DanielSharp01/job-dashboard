@@ -29,9 +29,16 @@ export default function Filter(props) {
           onChange={props.onRangeChange} />
       }
       {
-        type === "list" &&
+        type === "list" && <p>
+          <select value={props.includeType} onChange={(e) => props.changeIncludeType(e.target.value)}>
+            {["all", "any", "none"].map(v => (<option key={v} value={v}>Include {v}</option>))}
+          </select>
+        </p>
+      }
+      {
+        (type.includes("list")) &&
         <CheckListInput
-          fixed={props.fixed}
+          fixed={type === "fixed-list"}
           list={props.values.map((v, i) => ({ ...v, index: i }))}
           onAdd={props.onListAdd}
           onChecked={props.onListChecked}

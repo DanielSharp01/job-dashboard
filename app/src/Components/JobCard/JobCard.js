@@ -1,5 +1,6 @@
 import React from 'react';
 import "./JobCard.scss";
+import moment from "moment";
 
 export default function JobCard({ name, pay, tags, organization, minHours, maxHours, date, compact }) {
   let hoursClass = (!minHours && minHours !== 0) ? "gray" :
@@ -24,7 +25,7 @@ export default function JobCard({ name, pay, tags, organization, minHours, maxHo
           {minHours !== 0 && !minHours ? "?" : minHours}-{maxHours !== 0 && !maxHours ? "?" : maxHours} hrs
         </div>}
       </div>
-      <span className="date">{date}</span>
+      <span className="date">{moment(date).format("YYYY.MM.DD.")}</span>
     </div>
   </div>
 }

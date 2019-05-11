@@ -1,16 +1,17 @@
 import { connect } from 'react-redux'
 import JobCards from "../JobCards/JobCards";
+import moment from "moment";
 
 function includesAny(haystack, needle) {
-  return haystack.filter(he => needle.filter(ne => he.includes(ne)).length > 0).length > 0;
+  return needle.length === 0 || haystack.filter(he => needle.filter(ne => he.toLowerCase().includes(ne.toLowerCase())).length > 0).length > 0;
 }
 
 function includesAll(haystack, needle) {
-  return needle.length !== 0 && needle.filter(ne => haystack.filter(he => he.includes(ne)).length === 0).length === 0;
+  return needle.filter(ne => haystack.filter(he => he.toLowerCase().includes(ne.toLowerCase())).length === 0).length === 0;
 }
 
 function includesNone(haystack, needle) {
-  return haystack.filter(he => needle.filter(ne => he.includes(ne)).length > 0).length === 0;
+  return haystack.filter(he => needle.filter(ne => he.toLowerCase().includes(ne.toLowerCase())).length > 0).length === 0;
 }
 
 function getFilterPredicate(filter) {
@@ -18,14 +19,21 @@ function getFilterPredicate(filter) {
   switch (filter.property) {
     case "Tags":
       values = filter.values.filter(v => v.checked).map(v => v.name);
-      return job => includesAny(job.tags, values);
+      switch (filter.includeType) {
+        case "all":
+          return job => includesAll(job.tags, values);
+        case "any":
+          return job => includesAny(job.tags, values);
+        case "none":
+          return job => includesNone(job.tags, values);
+      }
     case "Organization":
       values = filter.values.filter(v => v.checked).map(v => v.name);
       return job => values.includes(job.organization)
     case "Pay":
-      return job => false
+      return job => job.pay && job.pay >= filter.fromValue
     case "Min hours":
-      return job => false
+      return job => job.minHours && job.minHours >= filter.fromValue && job.minHours <= filter.toValue
   }
 }
 
@@ -35,6 +43,12 @@ function getSortComparator(sortCriteria) {
       return (a, b) => a.pay - b.pay;
     case "Min hours":
       return (a, b) => (a.minHours ? a.minHours : 0) - (b.minHours ? b.minHours : 0)
+    case "Date":
+      return (a, b) => {
+        a = moment(a.date);
+        b = moment(b.date);
+        return a.isBefore(b) ? -1 : a.isAfter(b) ? 1 : 0
+      }
   }
 }
 

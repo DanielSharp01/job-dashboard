@@ -4,6 +4,7 @@ import {
   REMOVE_FILTER,
   ADD_LIST_FILTER_VALUE,
   TOGGLE_LIST_FILTER_VALUE,
+  CHANGE_LIST_FILTER_INCLUDE_TYPE,
   REMOVE_LIST_FILTER_VALUE,
   CHANGE_RANGE_FILTER_VALUE
 } from "./index";
@@ -43,6 +44,14 @@ export function toggleListFilterValue(index, valueIndex, checked) {
     index,
     valueIndex,
     checked
+  }
+}
+
+export function changeListFilterIncludeType(index, includeType) {
+  return {
+    type: CHANGE_LIST_FILTER_INCLUDE_TYPE,
+    index,
+    includeType
   }
 }
 

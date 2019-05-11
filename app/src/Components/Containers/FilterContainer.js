@@ -5,6 +5,7 @@ import {
   removeFilter,
   addListFilterValue,
   toggleListFilterValue,
+  changeListFilterIncludeType,
   removeListFilterValue,
   changeRangeFilterValue
 } from "../../Actions/filters"
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch, { index }) => ({
   remove: () => dispatch(removeFilter(index)),
   onListAdd: (value) => dispatch(addListFilterValue(index, value)),
   onListChecked: (valueIndex) => dispatch(toggleListFilterValue(index, valueIndex)),
+  changeIncludeType: (type) => dispatch(changeListFilterIncludeType(index, type)),
   onListRemove: (valueIndex) => dispatch(removeListFilterValue(index, valueIndex)),
   onRangeChange: ({ from, to }) => dispatch(changeRangeFilterValue(index, { from, to })),
 });
