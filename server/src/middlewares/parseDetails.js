@@ -1,5 +1,26 @@
 import { normalizeString, bestHourGuessFromRegex } from "../parserCommons";
 
+let textTags = ["C#", "C++", "JS", "Javascript",
+  "Node", "MySQL", "MongoDb", "Oracle", "HTML",
+  "CSS", "Angular", "React", "Redux",
+  "PHP", "Gyakornok", "Junior", "Trainee", "Intern", "Szoftver", "Software",
+  "Back-end", "Backend", "Front-end", "Front end", "Programmer", "Programozó", "Developer", "Fejlesztő",
+  "Test", "Teszt", "Home Office"];
+
+let regexTags = [/\w+. kerület/, /Java\b/i];
+
+let tagMapping = {
+  "front end": "Front-end",
+  "back-end": "Backend",
+  "back end": "Backend",
+  "java": "Java",
+  "szoftver": "Software",
+  "programozó": "Programmer",
+  "fejlesztő": "Developer",
+  "gyakornok": "Trainee",
+  "teszt": "Test"
+}
+
 export default () => async (req, res, next) => {
   for (let job of res.jobs) {
     if (!job.detailsHtml) continue;
@@ -32,27 +53,6 @@ export default () => async (req, res, next) => {
     delete job.detailsHtml;
   }
   return next();
-}
-
-let textTags = ["C#", "C++", "JS", "Javascript",
-  "Node", "MySQL", "MongoDb", "Oracle", "HTML",
-  "CSS", "Angular", "React", "Redux",
-  "PHP", "Gyakornok", "Junior", "Trainee", "Intern", "Szoftver", "Software",
-  "Back-end", "Backend", "Front-end", "Front end", "Programmer", "Programozó", "Developer", "Fejlesztő",
-  "Test", "Teszt", "Home Office"];
-
-let regexTags = [/\w+. kerület/, /Java\b/i];
-
-let tagMapping = {
-  "front end": "Front-end",
-  "back-end": "Backend",
-  "back end": "Backend",
-  "java": "Java",
-  "szoftver": "Software",
-  "programozó": "Programmer",
-  "fejlesztő": "Developer",
-  "gyakornok": "Trainee",
-  "teszt": "Test"
 }
 
 function findTags(text) {

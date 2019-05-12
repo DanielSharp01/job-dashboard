@@ -2,15 +2,17 @@ export function normalizeString(str) {
   return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 }
 
+
 export function parsePay(str) {
   let match = normalizeString(str).match(/(\d+)(?:-(\d+))* (?:Ft|HUF)\/ *?([A-za-z]+)/i);
   let pay = null;
+  const monthlyHours = 168;
   if (match) {
     pay = { min: parseInt(match[1]), max: match[2] ? parseInt(match[2]) : null };
 
     if (match.length > 3 && match[3].includes("ho")) {
-      if (pay.min) pay.min = Math.round(pay.min / 168);
-      if (pay.may) pay.max = Math.round(pay.max / 168);
+      if (pay.min) pay.min = Math.round(pay.min / monthlyHours);
+      if (pay.may) pay.max = Math.round(pay.max / monthlyHours);
     }
   }
   return pay;
