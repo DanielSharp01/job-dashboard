@@ -10,9 +10,9 @@ export function parsePay(str) {
   if (match) {
     pay = { min: parseInt(match[1]), max: match[2] ? parseInt(match[2]) : null };
 
-    if (match.length > 3 && match[3].includes("ho")) {
+    if (match.length > 3 && match[3].includes("ho") && !match[3].includes("hour")) {
       if (pay.min) pay.min = Math.round(pay.min / monthlyHours);
-      if (pay.may) pay.max = Math.round(pay.max / monthlyHours);
+      if (pay.max) pay.max = Math.round(pay.max / monthlyHours);
     }
   }
   return pay;

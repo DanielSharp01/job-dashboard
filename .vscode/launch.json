@@ -8,6 +8,25 @@
       "port": 5858,
       "stopOnEntry": false,
       "restart": true
+    },
+    {
+      "name": "Attach server via npm",
+      "type": "node",
+      "request": "launch",
+      "port": 5858,
+      "stopOnEntry": false,
+      "cwd": "${workspaceFolder}/server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "debug"
+      ]
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/app"
     }
   ]
 }

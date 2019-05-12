@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./Components/App/App";
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./Reducers";
-import { recieveJobs } from "./Actions/jobs";
-import uuidv4 from "uuid/v4";
 import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
+import App from './Components/App/App';
+import { fetchJobs } from './Actions/jobs';
 
 
 const logMW = (store) => (next) => {
@@ -23,9 +22,4 @@ const logMW = (store) => (next) => {
 
 const store = createStore(reducer, applyMiddleware(logMW, thunk));
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
-
-store.dispatch(recieveJobs([
-  { id: uuidv4(), name: "C# developer", pay: 1500, tags: ["C#", "Asp.net", "MySQL"], organization: "Műisz", date: "2019-05-02", minHours: 20, maxHours: 40 },
-  { id: uuidv4(), name: "Javascript developer", pay: 1800, tags: ["JS", "Express", "Angular", "React", "MongoDB"], organization: "Schönherz", date: "2019-05-03", minHours: 25 },
-  { id: uuidv4(), name: "Java developer", pay: 1300, tags: ["Java", "Hibernate", "Oracle", "MySQL"], organization: "Műisz", date: "2019-05-03", maxHours: 40 }
-]));
+store.dispatch(fetchJobs());

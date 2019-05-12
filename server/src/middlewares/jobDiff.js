@@ -1,6 +1,6 @@
 import Job from "../Job";
 
-export default () => async (req, res, next) => {
+export default async (req, res, next) => {
 
   console.log(`Diffing ${res.jobs.length} jobs.`);
   let promises = [];

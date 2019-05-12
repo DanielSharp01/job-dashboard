@@ -1,6 +1,6 @@
 import { parsePay } from "../parserCommons";
 
-export default () => (req, res, next) => {
+export default (req, res, next) => {
   for (let organization of req.organizations) {
     console.log(`Parsing ${organization} list`);
     parseByOrg[organization](res);

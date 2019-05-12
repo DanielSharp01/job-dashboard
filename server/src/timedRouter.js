@@ -61,7 +61,7 @@ function everyImpl(name, interval, delay, callFirst, mwChain) {
   return res;
 }
 
-export function every({ name = uuidv4(), interval, unit = "ms", delay = 0, callFirst = true }, ...mwChain) {
+export default function every({ name = uuidv4(), interval, unit = "ms", delay = 0, callFirst = true }, ...mwChain) {
   if (!interval) return null;
 
   switch (unit) {

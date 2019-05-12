@@ -3,7 +3,7 @@ import cheerio from "cheerio";
 import iconv from "iconv-lite";
 import { Buffer } from "buffer";
 
-export default () => async (req, res, next) => {
+export default async (req, res, next) => {
   let promises = [];
   for (let organization of req.organizations) {
     console.log(`Requesting ${organization} list`);

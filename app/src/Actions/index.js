@@ -1,5 +1,7 @@
-export const NEW_JOB = "NEW_JOB";
+export const ADD_JOB = "ADD_JOB";
 export const RECIEVE_JOBS = "RECIEVE_JOBS";
+export const REMOVE_JOB = "REMOVE_JOB";
+export const MULTI_REMOVE_JOB = "MULTI_REMOVE_JOB";
 
 export const ADD_SORT_CRITERIA = "ADD_SORT_CRITERIA";
 export const CHANGE_SORT_CRITERIA_PROPERTY = "CHANGE_SORT_CRITERIA_PROPERTY";

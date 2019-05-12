@@ -4,7 +4,9 @@
   "main": "index.js",
   "author": "Daniel Sharp",
   "scripts": {
-    "start": "nodemon --nolazy --inspect-brk=5858 --exec babel-node src/index.js",
+    "start": "node ./node_modules/@babel/node/bin/babel-node.js src/index.js",
+    "debug": "node ./node_modules/@babel/node/bin/babel-node.js --inspect-brk=5858 src/index.js",
+    "debug-mon": "nodemon --nolazy --inspect-brk=5858 --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
     "serve": "node dist/index.js"
   },
@@ -15,6 +17,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "iconv-lite": "^0.4.24",
     "moment": "^2.24.0",

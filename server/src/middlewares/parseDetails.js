@@ -21,7 +21,7 @@ let tagMapping = {
   "teszt": "Test"
 }
 
-export default () => async (req, res, next) => {
+export default async (req, res, next) => {
   for (let job of res.jobs) {
     if (!job.detailsHtml) continue;
     const $ = job.detailsHtml;
