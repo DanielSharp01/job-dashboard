@@ -28,6 +28,8 @@ export default () => async (req, res, next) => {
 
     job.hours = job.hours || findHoursInText(mainText);
     job.tags = findTags(mainText).map(tag => tagMapping[tag.toLowerCase()] || tag);
+
+    delete job.detailsHtml;
   }
   return next();
 }

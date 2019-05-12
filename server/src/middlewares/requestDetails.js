@@ -4,7 +4,7 @@ import iconv from "iconv-lite";
 import { Buffer } from "buffer";
 
 export default () => async (req, res, next) => {
-  for (let job of res.jobs) {
+  for (let job of res.jobs.filter(job => job.tags === null)) {
     try {
       let body = await request({ method: "GET", url: job.link, encoding: job.organization === "Műisz" ? null : undefined });
       if (!body) continue;
@@ -12,7 +12,9 @@ export default () => async (req, res, next) => {
       job.detailsHtml = cheerio.load(body);
     }
     catch (err) {
-      console.log(job.link + " failed");
+      console.group(job.link + " failed");
+      console.error(err);
+      console.groupEnd();
     }
   }
 
