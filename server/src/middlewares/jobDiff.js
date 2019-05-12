@@ -1,9 +1,11 @@
 import Job from "../Job";
+import organizations from "../organizations";
 
 export default () => async (req, res, next) => {
 
+  console.log(`Diffing ${res.jobs.length} jobs.`);
   let promises = [];
-  for (let organization of ["Müisz", "Schönherz"]) {
+  for (let organization of organizations) {
     if (res.requestHtml[organization]) {
       let jobs = res.jobs.filter(job => job.organization === organization);
 
@@ -11,7 +13,11 @@ export default () => async (req, res, next) => {
         promises.push(Job.findOrCreate(job));
       }
 
-      await Job.deleteMany({ id: { "$nin": jobs.map(job => job.id) }, organization });
+      try {
+        await Job.deleteMany({ id: { "$nin": jobs.map(job => job.id) }, organization });
+      } catch (err) {
+        console.error("Could not delete non-existing jobs.");
+      }
     }
   }
 

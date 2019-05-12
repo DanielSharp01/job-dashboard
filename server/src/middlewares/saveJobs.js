@@ -10,15 +10,15 @@ export default () => async (req, res, next) => {
         return res;
       }
       catch (err) {
-        console.group("Saving " + job.id + " of " + job.organization + " failed");
+        console.group(`Saving ${job.id} of ${job.organization} failed.`);
         console.error(err);
         console.groupEnd();
       }
     })());
   }
 
-  console.log(`Attempting to save ${promises.length} jobs!`);
+  console.log(`Attempting to save ${promises.length} jobs.`);
   await Promise.all(promises);
-  console.log(`Saved ${counter} jobs!`);
+  console.log(`Saved ${counter} jobs.`);
   return next();
 };

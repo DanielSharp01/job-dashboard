@@ -8,7 +8,7 @@ export default function JobCard({ name, pay, tags, organization, minHours, maxHo
       minHours <= 20 ? "yellow" :
         minHours <= 25 ? "orange" : "red";
 
-  return <div className={"job-card" + (compact ? " compact" : "")}>
+  return <div className={`job-card ${(compact ? " compact" : "")}`}>
     <div className="top-wrapper">
       <div className="header">
         <div className="name">{name}</div>

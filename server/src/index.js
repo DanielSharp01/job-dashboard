@@ -1,9 +1,6 @@
 import express from "express";
-import mongoose from "mongoose";
-import requestSchonherz from "./middlewares/requestSchonherz";
-import requestMuisz from "./middlewares/requestMuisz";
-import parseSchonherz from "./middlewares/parseSchonherz";
-import parseMuisz from "./middlewares/parseMuisz";
+import request from "./middlewares/request"
+import parse from "./middlewares/parse";
 import requestDetails from "./middlewares/requestDetails";
 import parseDetails from "./middlewares/parseDetails";
 import jobDiff from "./middlewares/jobDiff";
@@ -16,10 +13,8 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 app.get('/test',
   (req, res, next) => { res.requestHtml = {}; res.jobs = []; return next(); },
-  requestSchonherz(),
-  parseSchonherz(),
-  requestMuisz(),
-  parseMuisz(),
+  request(),
+  parse(),
   jobDiff(),
   requestDetails(),
   parseDetails(),
