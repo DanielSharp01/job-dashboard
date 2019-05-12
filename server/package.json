@@ -19,7 +19,8 @@
     "iconv-lite": "^0.4.24",
     "moment": "^2.24.0",
     "mongoose": "^5.5.7",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

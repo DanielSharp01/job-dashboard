@@ -2,11 +2,11 @@ import request from "../requestPromise";
 import cheerio from "cheerio";
 import iconv from "iconv-lite";
 import { Buffer } from "buffer";
-import organizations from "../organizations";
 
 export default () => async (req, res, next) => {
   let promises = [];
-  for (let organization of organizations) {
+  for (let organization of req.organizations) {
+    console.log(`Requesting ${organization} list`);
     promises.push(requestByOrg[organization](res));
   }
 

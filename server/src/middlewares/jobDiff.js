@@ -1,11 +1,10 @@
 import Job from "../Job";
-import organizations from "../organizations";
 
 export default () => async (req, res, next) => {
 
   console.log(`Diffing ${res.jobs.length} jobs.`);
   let promises = [];
-  for (let organization of organizations) {
+  for (let organization of req.organizations) {
     if (res.requestHtml[organization]) {
       let jobs = res.jobs.filter(job => job.organization === organization);
 

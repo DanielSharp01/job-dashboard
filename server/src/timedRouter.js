@@ -1,54 +1,83 @@
+import uuidv4 from "uuid/v4";
+
 const defaultErrorMW = (req, res, next, err) => console.error(err);
 
-function dispatch(name, mwChain, errorMiddleware = null, req = null, res = null) {
+function dispatch(req, mwChain, errorMiddleware = null, res = null) {
   if (errorMiddleware === null) {
     errorMiddleware = mwChain.filter(mw => mw.length === 4);
     errorMiddleware = errorMiddleware.length > 0 ? errorMiddleware[0] : defaultErrorMW;
     mwChain = mwChain.filter(mw => mw.length === 3);
   }
 
-  if (!req) req = { name };
   if (!res) res = {};
 
   if (mwChain.length == 0) {
-    console.log(new Date().toUTCString(), `Route ${name} ran successfuly.`);
+    console.log(new Date().toUTCString(), `Route ${req.name} ran successfuly.`);
     return;
   }
 
   mwChain[0](req, res, (err) => {
     if (err) {
       errorMiddleware(req, res, (err) => {
-        if (err) console.error("Error middleware called itself, stack overflow what have ya!");
-        else dispatch(name, mwChain.slice(1), errorMiddleware);
+        if (err) console.error(`Route ${req.name}`, "error middleware called itself, stack overflow what have ya!");
+        else dispatch(req, mwChain.slice(1), errorMiddleware);
       }, err);
     }
     else {
-      dispatch(name, mwChain.slice(1), errorMiddleware, req, res);
+      dispatch(req, mwChain.slice(1), errorMiddleware, res);
     }
   });
 }
 
-function everyXMillisecondsImpl(name, milliseconds, mwChain) {
-  let dispatchHandler = () => {
-    console.log(new Date().toUTCString(), `Route ${name} started.`);
-    dispatch(name, mwChain);
-  }
-  let handle = setInterval(dispatchHandler, milliseconds);
-  return {
+function everyImpl(name, interval, delay, callFirst, mwChain) {
+  let res = {
     name,
-    dispatch: dispatchHandler,
-    unroute: () => clearInterval(handle)
+    dispatch: function () {
+      console.log(new Date().toUTCString(), `Route ${this.name} started.`);
+      dispatch({ name: this.name, unroute: () => this.unroute() }, mwChain);
+    },
+    unroute: function () {
+      if (this.inTimeout) clearTimeout(this.handle);
+      else clearInterval(this.handle);
+    }
   };
+
+  const scheduleInterval = () => {
+    res.handle = setInterval(() => res.dispatch(), interval);
+    res.inTimeout = false;
+    if (callFirst) res.dispatch();
+  }
+
+  if (delay === 0) {
+    scheduleInterval();
+  }
+  else {
+    res.handle = setTimeout(() => {
+      scheduleInterval();
+    }, delay)
+    res.inTimeout = true;
+  }
+
+  return res;
 }
 
-export function everyXMilliseconds(name, milliseconds, ...mwChain) {
-  return everyXMillisecondsImpl(name, milliseconds, mwChain);
-}
+export function every({ name = uuidv4(), interval, unit = "ms", delay = 0, callFirst = true }, ...mwChain) {
+  if (!interval) return null;
 
-export function everyXSeconds(name, seconds, ...mwChain) {
-  return everyXMillisecondsImpl(name, seconds * 1000, mwChain)
-}
-
-export function everyXMinutes(name, minutes, ...mwChain) {
-  return everyXMillisecondsImpl(name, minutes * 60000, mwChain);
+  switch (unit) {
+    case "milliseconds":
+    case "ms":
+      return everyImpl(name, interval, delay, callFirst, mwChain);
+    case "seconds":
+    case "s":
+      return everyImpl(name, interval * 1000, delay * 1000, callFirst, mwChain);
+    case "minutes":
+    case "m":
+      return everyImpl(name, interval * 60000, delay * 60000, callFirst, mwChain);
+    case "hours":
+    case "h":
+      return everyImpl(name, interval * 3600000, delay * 3600000, callFirst, mwChain);
+    default:
+      return null;
+  }
 }
