@@ -3,18 +3,20 @@ import cheerio from "cheerio";
 import iconv from "iconv-lite";
 import { Buffer } from "buffer";
 
-export default () => (req, res, next) => {
-  request({
-    method: "GET",
-    url: "https://www.muisz.hu",
-    encoding: null,
-    headers:
-    {
-      "Accept-Encoding": "utf-8"
-    }
-  }).then(body => {
+export default () => async (req, res, next) => {
+  try {
+    let body = await request({
+      method: "GET",
+      url: "https://www.muisz.hu",
+      encoding: null
+    });
+
     body = iconv.decode(Buffer.from(body), "ISO-8859-2")
-    res.html = cheerio.load(body);
-    next();
-  });
+    res.requestHtml["Műisz"] = cheerio.load(body);
+    return next();
+  }
+  catch (err) {
+    return next(err);
+  }
+
 }

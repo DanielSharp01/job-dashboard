@@ -24,7 +24,7 @@ function propertyFilterMap(property) {
     case "Organization":
       return {
         type: "fixed-list",
-        values: [{ id: uuidv4(), name: "Müisz", checked: true }, { id: uuidv4(), name: "Schönherz", checked: true }]
+        values: [{ id: uuidv4(), name: "Műisz", checked: true }, { id: uuidv4(), name: "Schönherz", checked: true }]
       };
     case "Pay":
       return {

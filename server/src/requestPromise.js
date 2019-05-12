@@ -7,6 +7,6 @@ export default options =>
         if (!err && res.statusCode >= 200 && res.statusCode < 300) {
           resolve(body);
         } else {
-          reject({ err, statusCode: res.statusCode });
+          reject({ err, statusCode: res && res.statusCode });
         }
       }));
