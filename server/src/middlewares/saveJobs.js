@@ -1,24 +1,25 @@
-export default async (req, res, next) => {
+import { renderJobObject } from "./getJobs";
+
+export default (sseSendAll) => async (req, res, next) => {
+
+  let modifiedJobs = res.jobs.filter(job => job.isModified());
+  if (modifiedJobs.length > 0) sseSendAll({ event: "added-jobs", data: modifiedJobs.map(renderJobObject) });
 
   let promises = [];
-  let counter = 0;
-  for (let job of res.jobs) {
-    if (job.isModified()) promises.push((async () => {
+  for (let job of modifiedJobs) {
+    promises.push((async () => {
       try {
-        let res = await job.save();
-        counter++;
-        return res;
+        return await job.save();
       }
       catch (err) {
-        console.group(`Saving ${job.id} of ${job.organization} failed.`);
+        console.group(`Route ${req.name}`, `saving ${job.id} of ${job.organization} failed.`);
         console.error(err);
         console.groupEnd();
       }
     })());
   }
 
-  console.log(`Attempting to save ${promises.length} jobs.`);
+  console.log(`Route ${req.name}`, `saving ${modifiedJobs.length} jobs.`);
   await Promise.all(promises);
-  console.log(`Saved ${counter} jobs.`);
   return next();
 };

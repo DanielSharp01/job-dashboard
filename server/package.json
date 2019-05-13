@@ -13,7 +13,9 @@
   "babel": {
     "presets": [
       "@babel/preset-env"
-    ]
+    ],
+    "sourceMaps": "inline",
+    "retainLines": true
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

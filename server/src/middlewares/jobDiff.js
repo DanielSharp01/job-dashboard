@@ -1,33 +1,47 @@
 import Job from "../Job";
-import moment from "moment";
 
-export default async (req, res, next) => {
-
+export default (sseSendAll) => async (req, res, next) => {
   console.log(`Route ${req.name}`, `Diffing ${res.jobs.length} jobs.`);
-  let promises = [];
+  let allRemovedJobIds = [];
+  let newResJobs = [];
   for (let organization of req.organizations) {
     if (res.requestHtml[organization]) {
-      let jobs = res.jobs.filter(job => job.organization === organization);
-
-      for (let job of jobs) {
-        promises.push(Job.findOrCreate(job));
-        if (job.date === undefined) job.date = moment("2019-05-13 18:00");
-      }
-
-
       try {
-        await Job.deleteMany({ id: { "$nin": jobs.map(job => job.id) }, organization });
-      } catch (err) {
-        console.error(`Route ${req.name}`, "Could not delete non-existing jobs.");
+        let dbJobs = await Job.find({ organization });
+        dbJobs = dbJobs.reduce((acc, job) => {
+          acc[job.id] = job;
+          return acc;
+        }, {});
+        let jobs = res.jobs.filter(job => job.organization === organization);
+
+        for (let job of jobs) {
+          newResJobs.push(dbJobs[job.id] || Job.create(job));
+        }
+
+        try {
+          let removedJobs = { ...dbJobs };
+
+          for (let job of jobs) {
+            delete removedJobs[job.id];
+          }
+
+          let removedJobIds = Object.keys(removedJobs);
+          allRemovedJobIds = allRemovedJobIds.concat(removedJobIds.map(id => removedJobs[id]._id));
+
+          console.log(`Route ${req.name}`, `removing ${removedJobIds.length} non-existing jobs`);
+          await Job.deleteMany({ id: { "$in": removedJobIds }, organization });
+        } catch (err) {
+          console.error(`Route ${req.name}`, "error removing non-existing jobs.");
+        }
+      }
+      catch (err) {
+        return next(err);
       }
     }
   }
 
-  try {
-    res.jobs = await Promise.all(promises);
-  }
-  catch (err) {
-    return next(err);
-  }
+  if (allRemovedJobIds.length > 0) sseSendAll({ event: "removed-jobs", data: allRemovedJobIds });
+  res.jobs = newResJobs;
+
   return next();
 };

@@ -1,11 +1,4 @@
-import { ADD_JOB, RECIEVE_JOBS, REMOVE_JOB, MULTI_REMOVE_JOB } from "./index";
-
-export function addJob(job) {
-  return {
-    type: ADD_JOB,
-    job
-  }
-}
+import { RECIEVE_JOBS, REMOVE_JOBS } from "./index";
 
 export function recieveJobs(jobs) {
   return {
@@ -14,16 +7,9 @@ export function recieveJobs(jobs) {
   }
 }
 
-export function removeJob(jobId) {
+export function removeJobs(jobIds) {
   return {
-    type: REMOVE_JOB,
-    jobId
-  }
-}
-
-export function muliRemoveJob(jobIds) {
-  return {
-    type: MULTI_REMOVE_JOB,
+    type: REMOVE_JOBS,
     jobIds
   }
 }

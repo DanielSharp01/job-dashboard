@@ -21,11 +21,8 @@ const JobSchema = new Schema({
 
 JobSchema.index({ id: 1, organization: 1 }, { unique: true });
 
-JobSchema.statics.findOrCreate = async function ({ id, organization, name, link, pay }) {
-  let res = await this.findOne({ id, organization });
-  if (res) return res;
-
-  res = new this();
+JobSchema.statics.create = function ({ id, organization, name, link, pay }) {
+  let res = new this();
   res._id = mongoose.Types.ObjectId();
   res.id = id;
   res.organization = organization;

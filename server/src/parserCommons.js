@@ -6,9 +6,15 @@ export function normalizeString(str) {
 export function parsePay(str) {
   let match = normalizeString(str).match(/(\d+)(?:-(\d+))* (?:Ft|HUF)\/ *?([A-za-z]+)/i);
   let pay = null;
+  const weeklyHours = 40;
   const monthlyHours = 168;
   if (match) {
     pay = { min: parseInt(match[1]), max: match[2] ? parseInt(match[2]) : null };
+
+    if (match.length > 3 && (match[3].includes("het") || match[3].includes("week"))) {
+      if (pay.min) pay.min = Math.round(pay.min / weeklyHours);
+      if (pay.max) pay.max = Math.round(pay.max / weeklyHours);
+    }
 
     if (match.length > 3 && match[3].includes("ho") && !match[3].includes("hour")) {
       if (pay.min) pay.min = Math.round(pay.min / monthlyHours);

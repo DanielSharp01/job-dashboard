@@ -5,7 +5,7 @@ import reducer from "./Reducers";
 import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import App from './Components/App/App';
-import { fetchJobs } from './Actions/jobs';
+import { fetchJobs, recieveJobs, removeJobs } from './Actions/jobs';
 
 
 const logMW = (store) => (next) => {
@@ -23,3 +23,12 @@ const logMW = (store) => (next) => {
 const store = createStore(reducer, applyMiddleware(logMW, thunk));
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 store.dispatch(fetchJobs());
+
+const sseSource = new EventSource('http://localhost:3100/job-events');
+sseSource.addEventListener('added-jobs', (e) => {
+  store.dispatch(recieveJobs(JSON.parse(e.data)));
+});
+
+sseSource.addEventListener('removed-jobs', (e) => {
+  store.dispatch(removeJobs(JSON.parse(e.data)));
+});

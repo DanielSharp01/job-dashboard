@@ -49,7 +49,7 @@ function getSortComparator(sortCriteria) {
       return (a, b) => (a.pay && a.pay.max ? a.pay.max : a.pay && a.pay.min ? a.pay.min : 0)
         - (b.pay && b.pay.max ? b.pay.max : b.pay && b.pay.min ? b.pay.min : 0);
     case "Min hours":
-      return (a, b) => (a.minHours ? a.minHours : 0) - (b.minHours ? b.minHours : 0)
+      return (a, b) => (a.hours && a.hours.min ? a.hours.min : 40) - (b.hours && b.hours.min ? b.hours.min : 40);
     case "Date":
       return (a, b) => {
         a = moment(a.date);

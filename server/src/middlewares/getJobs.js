@@ -1,6 +1,6 @@
 import Job from "../Job";
 
-const renderJobObject = (job) => ({
+export const renderJobObject = (job) => ({
   id: job._id,
   orgId: job.id,
   organization: job.organization,
