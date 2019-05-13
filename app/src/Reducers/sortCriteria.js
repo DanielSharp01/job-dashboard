@@ -7,11 +7,13 @@ import {
 } from "../Actions";
 import uuidv4 from "uuid/v4";
 
-export const properties = ["Pay", "Min hours", "Date"];
+export const properties = ["Min pay", "May pay", "Min hours", "Date"];
 
 function directionForProperty(property) {
   switch (property) {
-    case "Pay":
+    case "Min pay":
+      return "Desc";
+    case "Max pay":
       return "Desc";
     case "Min hours":
       return "Asc";

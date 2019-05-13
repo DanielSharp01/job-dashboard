@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import db from "./db";
+import moment from "moment";
 
 const JobSchema = new Schema({
   id: { type: Number, required: true },
@@ -14,7 +15,8 @@ const JobSchema = new Schema({
     min: Number,
     max: Number
   },
-  tags: [String]
+  tags: [String],
+  date: Date
 });
 
 JobSchema.index({ id: 1, organization: 1 }, { unique: true });
@@ -31,6 +33,7 @@ JobSchema.statics.findOrCreate = async function ({ id, organization, name, link,
   res.link = link;
   res.pay = pay;
   res.tags = null;
+  res.date = moment();
   return res;
 }
 

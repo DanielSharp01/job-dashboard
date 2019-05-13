@@ -11,7 +11,7 @@ import {
 
 import uuidv4 from "uuid/v4";
 
-export const properties = ["Tags", "Pay", "Min hours", "Organization"];
+export const properties = ["Tags", "Min pay", "Min hours", "Organization"];
 
 function propertyFilterMap(property) {
   switch (property) {
@@ -26,7 +26,7 @@ function propertyFilterMap(property) {
         type: "fixed-list",
         values: [{ id: uuidv4(), name: "Műisz", checked: true }, { id: uuidv4(), name: "Schönherz", checked: true }]
       };
-    case "Pay":
+    case "Min pay":
       return {
         type: "range",
         from: true,

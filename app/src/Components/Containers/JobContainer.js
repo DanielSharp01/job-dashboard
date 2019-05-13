@@ -32,10 +32,10 @@ function getFilterPredicate(filter) {
     case "Organization":
       values = filter.values.filter(v => v.checked).map(v => v.name);
       return job => values.includes(job.organization)
-    case "Pay":
-      return job => job.pay && job.pay >= filter.fromValue
+    case "Min pay":
+      return job => job.pay && job.pay.min && job.pay.min >= filter.fromValue
     case "Min hours":
-      return job => job.minHours && job.minHours >= filter.fromValue && job.minHours <= filter.toValue
+      return job => job.hours && job.hours.min && job.hours.min >= filter.fromValue && job.hours.min <= filter.toValue
     default:
       return job => false
   }
@@ -43,8 +43,11 @@ function getFilterPredicate(filter) {
 
 function getSortComparator(sortCriteria) {
   switch (sortCriteria.property) {
-    case "Pay":
-      return (a, b) => a.pay - b.pay;
+    case "Min pay":
+      return (a, b) => (a.pay && a.pay.min ? a.pay.min : 0) - (b.pay && b.pay.min ? b.pay.min : 0);
+    case "Max pay":
+      return (a, b) => (a.pay && a.pay.max ? a.pay.max : a.pay && a.pay.min ? a.pay.min : 0)
+        - (b.pay && b.pay.max ? b.pay.max : b.pay && b.pay.min ? b.pay.min : 0);
     case "Min hours":
       return (a, b) => (a.minHours ? a.minHours : 0) - (b.minHours ? b.minHours : 0)
     case "Date":

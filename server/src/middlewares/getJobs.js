@@ -8,7 +8,8 @@ const renderJobObject = (job) => ({
   link: job.link,
   pay: job.pay,
   hours: job.hours,
-  tags: job.tags
+  tags: job.tags,
+  date: job.date
 });
 
 export default async (req, res, next) => {
