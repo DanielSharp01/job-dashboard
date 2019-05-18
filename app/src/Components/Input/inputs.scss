@@ -24,7 +24,7 @@ input, select
     color: $color-hover;
   }
 
-  &.disabled {
+  &:disabled {
     opacity: 0.2;
     cursor: auto;
     &:hover

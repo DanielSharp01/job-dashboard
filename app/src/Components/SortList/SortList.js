@@ -23,21 +23,23 @@ export default function FilterList({
       <TextSelect entries={Object.keys(slots)} value={addText} id="sort-slots"
         onChange={value => onAddTextChanged(value)}
         onClickChange={value => onSlotChanged(value)} />
-      <button className={selectedSlot === addText || addText === "" ? "disabled" : ""} onClick={() => onSlotAdded()}>
+      <button disabled={selectedSlot === addText || addText === ""} onClick={() => onSlotAdded()}>
         <i className="fas fa-plus"></i>
       </button>
-      <button className={!selectedSlot ? "disabled" : ""} onClick={() => onSlotSaved()}>
+      <button disabled={!selectedSlot} onClick={() => selectedSlot && onSlotSaved()}>
         <i className="fas fa-cloud-upload-alt"></i>
       </button>
-      <button className={!selectedSlot ? "disabled" : ""} onClick={() => onSlotRenamed()}>
+      <button disabled={!selectedSlot || selectedSlot === "Notification Filter"}
+        onClick={() => onSlotRenamed()}>
         <i className="fas fa-pen"></i>
       </button>
-      <button className={!selectedSlot ? "disabled" : ""} onClick={() => onSlotRemoved()}>
+      <button disabled={!selectedSlot || selectedSlot === "Notification Filter"}
+        onClick={() => onSlotRemoved()}>
         <i className="fas fa-times"></i>
       </button>
     </div>
     {selectedSlot && sortCriteria.map((s, i) => <SortContainer key={s.id} index={i} />)}
-    <button className={"add-element" + (!selectedSlot ? " disabled" : "")}
+    <button className={"add-element"} disabled={!selectedSlot}
       onClick={() => add()}><i className="fas fa-plus-circle"></i></button>
   </div>
 }
