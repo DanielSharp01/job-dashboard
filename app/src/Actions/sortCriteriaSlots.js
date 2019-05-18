@@ -1,12 +1,36 @@
 import {
+  RECIEVE_SORT_CRITERIA_SLOTS,
   ADD_SORT_CRITERIA_SLOT,
   CHANGE_SORT_CRITERIA_SLOT_ADD_TEXT,
   CHANGE_SORT_CRITERIA_SLOT,
   RENAME_SORT_CRITERIA_SLOT,
   REMOVE_SORT_CRITERIA_SLOT,
-  SAVE_SORT_CRITERIA_SLOT,
+  SAVING_SORT_CRITERIA_SLOT,
   SAVED_SORT_CRITERIA_SLOT
 } from "./index";
+
+import { getSortCriteria } from "../Reducers/sortCriteriaSlots";
+
+export function recieveSortCriteriaSlots(slots) {
+  return {
+    type: RECIEVE_SORT_CRITERIA_SLOTS,
+    slots
+  }
+}
+
+export function fetchSortCriteriaSlots() {
+  return async (dispatch) => {
+    try {
+      let res = await fetch("http://localhost:3100/sort-criteria-slots");
+      let slots = await res.json();
+      dispatch(recieveSortCriteriaSlots(slots));
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
+  }
+}
 
 export function addSortCriteriaSlot() {
   return {
@@ -35,14 +59,46 @@ export function renameSortCriteriaSlot(name) {
 }
 
 export function removeSortCriteriaSlot(name) {
-  return {
-    type: REMOVE_SORT_CRITERIA_SLOT
+  return async (dispatch, getState) => {
+    try {
+      let body = { slot: getState().sortCriteriaSlots.selectedSlot }
+      dispatch({ type: REMOVE_SORT_CRITERIA_SLOT });
+      await fetch("http://localhost:3100/sort-criteria-slots", {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
   }
 }
 
-export function saveSortCriteriaSlot(name) {
+export function savingSortCriteriaSlot(name) {
   return {
-    type: SAVE_SORT_CRITERIA_SLOT
+    type: SAVING_SORT_CRITERIA_SLOT
+  }
+}
+
+export function saveSortCriteriaSlot() {
+  return async (dispatch, getState) => {
+    try {
+      let sortCriteria = getState().sortCriteriaSlots;
+      dispatch(savingSortCriteriaSlot(sortCriteria.selectedSlot));
+      let body = { slot: sortCriteria.selectedSlot, sortCriteria: getSortCriteria(sortCriteria) }
+      await fetch("http://localhost:3100/sort-criteria-slots", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+      dispatch(savedSortCriteriaSlot(sortCriteria.selectedSlot));
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
   }
 }
 

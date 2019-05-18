@@ -1,12 +1,36 @@
 import {
+  RECIEVE_FILTER_SLOTS,
   ADD_FILTER_SLOT,
   CHANGE_FILTER_SLOT_ADD_TEXT,
   CHANGE_FILTER_SLOT,
   RENAME_FILTER_SLOT,
   REMOVE_FILTER_SLOT,
-  SAVE_FILTER_SLOT,
+  SAVING_FILTER_SLOT,
   SAVED_FILTER_SLOT
 } from "./index";
+
+import { getFilters } from "../Reducers/filterSlots";
+
+export function recieveFilterSlots(slots) {
+  return {
+    type: RECIEVE_FILTER_SLOTS,
+    slots
+  }
+}
+
+export function fetchFilterSlots() {
+  return async (dispatch) => {
+    try {
+      let res = await fetch("http://localhost:3100/filter-slots");
+      let slots = await res.json();
+      dispatch(recieveFilterSlots(slots));
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
+  }
+}
 
 export function addFilterSlot() {
   return {
@@ -35,14 +59,46 @@ export function renameFilterSlot(name) {
 }
 
 export function removeFilterSlot(name) {
-  return {
-    type: REMOVE_FILTER_SLOT
+  return async (dispatch, getState) => {
+    try {
+      let body = { slot: getState().filterSlots.selectedSlot }
+      dispatch({ type: REMOVE_FILTER_SLOT });
+      await fetch("http://localhost:3100/filter-slots", {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
   }
 }
 
-export function saveFilterSlot(name) {
+export function savingFilterSlot(name) {
   return {
-    type: SAVE_FILTER_SLOT
+    type: SAVING_FILTER_SLOT
+  }
+}
+
+export function saveFilterSlot() {
+  return async (dispatch, getState) => {
+    try {
+      let filterSlots = getState().filterSlots;
+      dispatch(savingFilterSlot(filterSlots.selectedSlot));
+      let body = { slot: filterSlots.selectedSlot, filters: getFilters(filterSlots) };
+      await fetch("http://localhost:3100/filter-slots", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+      dispatch(savedFilterSlot(filterSlots.selectedSlot));
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
   }
 }
 

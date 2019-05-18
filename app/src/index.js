@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import App from './Components/App/App';
 import { fetchJobs, recieveJobs, removeJobs } from './Actions/jobs';
+import { fetchFilterSlots } from "./Actions/filterSlots";
+import { fetchSortCriteriaSlots } from "./Actions/sortCriteriaSlots";
 
 objectUtils(); // Creates util functions on Object
 
@@ -25,6 +27,8 @@ const logMW = (store) => (next) => {
 const store = createStore(reducer, applyMiddleware(logMW, thunk));
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 store.dispatch(fetchJobs());
+store.dispatch(fetchFilterSlots());
+store.dispatch(fetchSortCriteriaSlots());
 
 const sseSource = new EventSource('http://localhost:3100/job-events');
 sseSource.addEventListener('added-jobs', (e) => {
