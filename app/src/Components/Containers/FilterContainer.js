@@ -7,14 +7,16 @@ import {
   toggleListFilterValue,
   changeListFilterIncludeType,
   removeListFilterValue,
-  changeRangeFilterValue
+  changeRangeFilterValue,
+  changeStringFilterValue,
+  changeFilterStringMatchFlags
 } from "../../Actions/filters"
 
-import { properties } from "../../Reducers/filters";
+import filterClassMap from "../../Filters/filterMapping";
 
 const mapStateToProps = ({ filters }, { index }) => ({
   ...filters[index],
-  properties,
+  properties: Object.keys(filterClassMap),
 });
 
 const mapDispatchToProps = (dispatch, { index }) => ({
@@ -25,6 +27,10 @@ const mapDispatchToProps = (dispatch, { index }) => ({
   changeIncludeType: (type) => dispatch(changeListFilterIncludeType(index, type)),
   onListRemove: (valueIndex) => dispatch(removeListFilterValue(index, valueIndex)),
   onRangeChange: ({ from, to }) => dispatch(changeRangeFilterValue(index, { from, to })),
+  onStringChange: (value) => dispatch(changeStringFilterValue(index, value)),
+  onMatchCaseChange: (value) => dispatch(changeFilterStringMatchFlags(index, { matchCase: value })),
+  onWholeWordChange: (value) => dispatch(changeFilterStringMatchFlags(index, { wholeWord: value })),
+  onRegexChange: (value) => dispatch(changeFilterStringMatchFlags(index, { regex: value }))
 });
 
 export default connect(

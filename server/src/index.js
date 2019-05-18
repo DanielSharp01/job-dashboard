@@ -34,8 +34,8 @@ function sseSendAll({ id, event, data }) {
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
-every({ name: "Schönherz", interval: 2, unit: "s", delay: 3 },
-  (req, res, next) => { req.unroute(); req.organizations = [req.name], res.requestHtml = {}; res.jobs = []; return next(); },
+every({ name: "Schönherz", interval: 2, unit: "m", delay: 0 },
+  (req, res, next) => { req.organizations = [req.name], res.requestHtml = {}; res.jobs = []; return next(); },
   request,
   parse,
   jobDiff(sseSendAll),
@@ -44,8 +44,8 @@ every({ name: "Schönherz", interval: 2, unit: "s", delay: 3 },
   saveJobs(sseSendAll)
 );
 
-every({ name: "Műisz", interval: 2, unit: "s", delay: 3 },
-  (req, res, next) => { req.unroute(); req.organizations = [req.name], res.requestHtml = {}; res.jobs = []; return next(); },
+every({ name: "Műisz", interval: 2, unit: "m", delay: 1 },
+  (req, res, next) => { req.organizations = [req.name], res.requestHtml = {}; res.jobs = []; return next(); },
   request,
   parse,
   jobDiff(sseSendAll),

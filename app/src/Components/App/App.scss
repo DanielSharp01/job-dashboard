@@ -1,12 +1,18 @@
 @import "../../colors.scss";
 
+html, body
+{
+  min-height: 100vh;
+  overflow: auto;
+}
+
+
 body
 {
   font-family: "Open Sans";
   background: $background;
   color: $foreground;
   margin: 0;
-  height: 100vh;
 }
 
 #root

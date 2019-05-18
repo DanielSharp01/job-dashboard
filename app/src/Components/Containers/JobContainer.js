@@ -1,79 +1,26 @@
 import { connect } from 'react-redux'
 import JobCards from "../JobCards/JobCards";
-import moment from "moment";
 
-function includesAny(haystack, needle) {
-  return needle.length === 0 || haystack.filter(he => needle.filter(ne => he.toLowerCase().includes(ne.toLowerCase())).length > 0).length > 0;
-}
+import filterClassMap from "../../Filters/filterMapping";
+import filterFuncMap from "../../Filters/filterFunctions";
 
-function includesAll(haystack, needle) {
-  return needle.filter(ne => haystack.filter(he => he.toLowerCase().includes(ne.toLowerCase())).length === 0).length === 0;
-}
-
-function includesNone(haystack, needle) {
-  return haystack.filter(he => needle.filter(ne => he.toLowerCase().includes(ne.toLowerCase())).length > 0).length === 0;
-}
-
-function getFilterPredicate(filter) {
-  let values;
-  switch (filter.property) {
-    case "Tags":
-      values = filter.values.filter(v => v.checked).map(v => v.name);
-      switch (filter.includeType) {
-        case "all":
-          return job => includesAll(job.tags, values);
-        case "any":
-          return job => includesAny(job.tags, values);
-        case "none":
-          return job => includesNone(job.tags, values);
-        default:
-          return job => false
-      }
-    case "Organization":
-      values = filter.values.filter(v => v.checked).map(v => v.name);
-      return job => values.includes(job.organization)
-    case "Min pay":
-      return job => job.pay && job.pay.min && job.pay.min >= filter.fromValue
-    case "Min hours":
-      return job => job.hours && job.hours.min && job.hours.min >= filter.fromValue && job.hours.min <= filter.toValue
-    default:
-      return job => false
-  }
-}
-
-function getSortComparator(sortCriteria) {
-  switch (sortCriteria.property) {
-    case "Min pay":
-      return (a, b) => (a.pay && a.pay.min ? a.pay.min : 0) - (b.pay && b.pay.min ? b.pay.min : 0);
-    case "Max pay":
-      return (a, b) => (a.pay && a.pay.max ? a.pay.max : a.pay && a.pay.min ? a.pay.min : 0)
-        - (b.pay && b.pay.max ? b.pay.max : b.pay && b.pay.min ? b.pay.min : 0);
-    case "Min hours":
-      return (a, b) => (a.hours && a.hours.min ? a.hours.min : 40) - (b.hours && b.hours.min ? b.hours.min : 40);
-    case "Date":
-      return (a, b) => {
-        a = moment(a.date);
-        b = moment(b.date);
-        return a.isBefore(b) ? -1 : a.isAfter(b) ? 1 : 0
-      }
-    default:
-      return (a, b) => 0;
-  }
-}
-
-function getSortComparatorWidthDir(sortCriteria) {
-  return (a, b) => ((sortCriteria.direction === "Desc") ? -1 : 1) * (getSortComparator(sortCriteria))(a, b)
-}
+import sortClassMap from "../../SortCriteria/sortMapping";
+import sortFuncMap from "../../SortCriteria/sortFunctions"
 
 const filterJobs = (jobs, filters) => {
   if (filters.length === 0) return jobs;
-  jobs = jobs.filter(getFilterPredicate(filters[0]));
+  let filterClass = filterClassMap[filters[0].property];
+  let filterFunc = filterFuncMap[filterClass.type];
+  jobs = jobs.filter((job) => filterFunc(filterClass, job, filters[0]));
   return filterJobs(jobs, filters.slice(1));
 }
 
 const sortJobs = (jobs, sortCriteria) => {
   if (sortCriteria.length === 0) return jobs;
-  jobs = jobs.sort(getSortComparatorWidthDir(sortCriteria[sortCriteria.length - 1]));
+  let sortInst = sortCriteria[sortCriteria.length - 1];
+  let sortClass = sortClassMap[sortInst.property];
+  let sortFunc = sortFuncMap[sortClass.type];
+  jobs = jobs.sort((a, b) => sortFunc(sortClass, a, b, sortInst));
   return sortJobs(jobs, sortCriteria.slice(0, -1));
 }
 

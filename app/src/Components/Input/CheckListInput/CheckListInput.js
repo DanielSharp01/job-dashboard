@@ -23,7 +23,7 @@ export default class CheckListInput extends Component {
       <ul>
         {
           list.map(v => (
-            <li className="list-item" key={v.id}>
+            <li className="list-item" key={v.name}>
               <label>
                 <input type="checkbox" checked={v.checked} onChange={() => onChecked && onChecked(v.index)} />
                 {v.name}

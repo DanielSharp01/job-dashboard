@@ -5,86 +5,50 @@ import {
   ADD_LIST_FILTER_VALUE,
   TOGGLE_LIST_FILTER_VALUE,
   REMOVE_LIST_FILTER_VALUE,
+  CHANGE_LIST_FILTER_INCLUDE_TYPE,
   CHANGE_RANGE_FILTER_VALUE,
-  CHANGE_LIST_FILTER_INCLUDE_TYPE
+  CHANGE_STRING_FILTER_VALUE,
+  CHANGE_FILTER_STRING_MATCH_FLAGS
 } from "../Actions";
 
+import filterClassMap, { createFilter } from "../Filters/filterMapping";
 import uuidv4 from "uuid/v4";
 
-export const properties = ["Tags", "Min pay", "Min hours", "Organization"];
-
-function propertyFilterMap(property) {
-  switch (property) {
-    case "Tags":
-      return {
-        type: "list",
-        includeType: "all",
-        values: []
-      };
-    case "Organization":
-      return {
-        type: "fixed-list",
-        values: [{ id: uuidv4(), name: "Műisz", checked: true }, { id: uuidv4(), name: "Schönherz", checked: true }]
-      };
-    case "Min pay":
-      return {
-        type: "range",
-        from: true,
-        to: false,
-        allowFloat: true,
-        allowNegative: false,
-        metric: "Ft/hr",
-        fromValue: 0
-      };
-    case "Min hours":
-      return {
-        type: "range",
-        from: true,
-        to: true,
-        allowFloat: false,
-        allowNegative: false,
-        metric: "hr",
-        fromValue: 0,
-        toValue: 40
-      };
-    default:
-      return {}
-  }
-}
+const properties = Object.keys(filterClassMap);
 
 export default (state = [], action) => {
-  let values;
+  let entries;
   switch (action.type) {
     case ADD_FILTER:
-      return [...state, { id: uuidv4(), property: properties[0], ...propertyFilterMap(properties[0]) }]
+      return [...state, { id: uuidv4(), ...createFilter(properties[0]) }]
     case CHANGE_FILTER_PROPERTY:
       return [
         ...state.slice(0, action.index),
-        { id: state[action.index].id, property: action.property, ...propertyFilterMap(action.property) },
+        { id: state[action.index].id, ...createFilter(action.property) },
         ...state.slice(action.index + 1)
       ];
     case ADD_LIST_FILTER_VALUE:
-      values = state[action.index].values;
-      if (values.filter(v => v.name === action.value).length > 0) return state;
+      entries = state[action.index].entries;
+      if (entries.filter(v => v.name === action.value).length > 0) return state;
 
       return [
         ...state.slice(0, action.index),
         Object.assign({}, state[action.index],
           {
-            values: [...values, { id: uuidv4(), name: action.value, checked: true }]
+            entries: [...entries, { id: uuidv4(), name: action.value, checked: true }]
           }),
         ...state.slice(action.index + 1)
       ];
     case TOGGLE_LIST_FILTER_VALUE:
-      values = state[action.index].values;
+      entries = state[action.index].entries;
       return [
         ...state.slice(0, action.index),
         Object.assign({}, state[action.index],
           {
-            values: [
-              ...values.slice(0, action.valueIndex),
-              Object.assign({}, values[action.valueIndex], { checked: !values[action.valueIndex].checked }),
-              ...values.slice(action.valueIndex + 1)
+            entries: [
+              ...entries.slice(0, action.valueIndex),
+              Object.assign({}, entries[action.valueIndex], { checked: !entries[action.valueIndex].checked }),
+              ...entries.slice(action.valueIndex + 1)
             ]
           }),
         ...state.slice(action.index + 1)
@@ -96,29 +60,61 @@ export default (state = [], action) => {
         ...state.slice(action.index + 1)
       ];
     case REMOVE_LIST_FILTER_VALUE:
-      values = state[action.index].values;
+      entries = state[action.index].entries;
       return [
         ...state.slice(0, action.index),
         Object.assign({}, state[action.index],
           {
-            values: [
-              ...values.slice(0, action.valueIndex),
-              ...values.slice(action.valueIndex + 1)
+            entries: [
+              ...entries.slice(0, action.valueIndex),
+              ...entries.slice(action.valueIndex + 1)
             ]
           }),
         ...state.slice(action.index + 1)
       ];
     case CHANGE_RANGE_FILTER_VALUE:
-      let from = action.from === "" ? "" : (typeof action.from !== "undefined") ? parseInt(action.from) : state[action.index].fromValue;
-      let to = action.to === "" ? "" : (typeof action.to !== "undefined") ? parseInt(action.to) : state[action.index].toValue;
+
+      let from, to;
+      if (action.from === "") {
+        from = "";
+      }
+      else if (typeof action.from === "undefined") {
+        from = state[action.index].from;
+      }
+      else if (filterClassMap[state[action.index].property].rangeType === "DATE") {
+        from = action.from;
+      } else {
+        from = parseInt(action.from);
+      }
+
+      if (action.to === "") {
+        to = "";
+      }
+      else if (typeof action.to === "undefined") {
+        to = state[action.index].to;
+      }
+      else if (filterClassMap[state[action.index].property].rangeType === "DATE") {
+        to = action.to;
+      } else {
+        to = parseInt(action.to);
+      }
 
       return [
         ...state.slice(0, action.index),
-        Object.assign({}, state[action.index],
-          {
-            fromValue: from,
-            toValue: to
-          }),
+        Object.assign({}, state[action.index], { from, to }),
+        ...state.slice(action.index + 1)
+      ];
+    case CHANGE_STRING_FILTER_VALUE:
+      return [
+        ...state.slice(0, action.index),
+        Object.assign({}, state[action.index], { string: action.value }),
+        ...state.slice(action.index + 1)
+      ];
+    case CHANGE_FILTER_STRING_MATCH_FLAGS:
+      let { matchCase, wholeWord, regex } = action;
+      return [
+        ...state.slice(0, action.index),
+        Object.assignDefined({}, state[action.index], { matchCase, wholeWord, regex }),
         ...state.slice(action.index + 1)
       ];
     case REMOVE_FILTER:

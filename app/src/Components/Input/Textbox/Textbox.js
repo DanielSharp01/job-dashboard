@@ -8,8 +8,10 @@ export default class Textbox extends Component {
   }
 
   render() {
+    let softValidation = this.props.softValidate && this.props.softValidate(this.props.value);
     return (<input type="text"
       autoComplete={this.props.autoComplete || "off"}
+      className={softValidation === false ? "validate-error" : ""}
       id={this.props.id}
       value={this.props.value}
       onChange={(e) => this.onChanged(e)} />);

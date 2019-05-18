@@ -7,11 +7,11 @@ import {
   removeSortCriteria
 } from "../../Actions/sortCriteria"
 
-import { properties } from "../../Reducers/sortCriteria";
+import sortClassMap from "../../SortCriteria/sortMapping";
 
 const mapStateToProps = ({ sortCriteria }, { index }) => ({
   ...sortCriteria[index],
-  properties,
+  properties: Object.keys(sortClassMap),
   upButton: index > 0,
   downButton: index < sortCriteria.length - 1
 });

@@ -1,3 +1,4 @@
+import objectUtils from "./objectUtils";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from "redux";
@@ -7,6 +8,7 @@ import thunk from 'redux-thunk';
 import App from './Components/App/App';
 import { fetchJobs, recieveJobs, removeJobs } from './Actions/jobs';
 
+objectUtils(); // Creates util functions on Object
 
 const logMW = (store) => (next) => {
   return (action) => {

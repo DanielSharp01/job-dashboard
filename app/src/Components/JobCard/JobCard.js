@@ -17,7 +17,7 @@ export default function JobCard({ name, link, pay, tags, organization, hours, da
   let payText = dashedText(pay) + " Ft/hr";
 
   return <div className={`job-card ${(compact ? " compact" : "")}`} onClick={() => window.open(link)}>
-    {moment(date).add(1, "d").isAfter(moment("2019-05-13 18:01")) && <div className="new">New</div>}
+    {moment(date).add(1, "d").isAfter(moment()) && <div className="new">New</div>}
     <div className="top-wrapper">
       <div className="header">{name}</div>
       <div className="tags">

@@ -1,0 +1,26 @@
+.range-input
+{
+  .row
+  {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 0;
+  }
+  
+  label
+  {
+    flex: 2;
+    margin-right: 6px;
+  }
+
+  input[type="text"]
+  {
+    flex: 6;
+  }
+
+  span
+  {
+    margin-left: 6px;
+    flex: 1;
+  }
+}

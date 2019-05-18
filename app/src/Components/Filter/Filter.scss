@@ -8,13 +8,18 @@
   box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
   position: relative;
 
-  .property
+  .property p
   {
-    p
-    {
-      font-weight: 300;
-      color: $foreground;
-    }
+    font-weight: 300;
+    color: $foreground;
+  }
+  
+  .property, .value
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 4px 0;
   }
 
   button.close-button

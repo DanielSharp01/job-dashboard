@@ -10,13 +10,18 @@
   position: relative;
   padding-right: 20px; 
 
-  .property
+  .property p
   {
-    p
-    {
-      font-weight: 300;
-      color: $foreground;
-    }
+    font-weight: 300;
+    color: $foreground;
+  }
+  
+  .property, .value
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 4px 0;
   }
 
   .buttons

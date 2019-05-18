@@ -7,31 +7,18 @@ import {
 } from "../Actions";
 import uuidv4 from "uuid/v4";
 
-export const properties = ["Min pay", "May pay", "Min hours", "Date"];
+import sortClassMap from "../SortCriteria/sortMapping";
 
-function directionForProperty(property) {
-  switch (property) {
-    case "Min pay":
-      return "Desc";
-    case "Max pay":
-      return "Desc";
-    case "Min hours":
-      return "Asc";
-    case "Date":
-      return "Desc"
-    default:
-      return "Asc";
-  }
-}
+const properties = Object.keys(sortClassMap);
 
 export default (state = [], action) => {
   switch (action.type) {
     case ADD_SORT_CRITERIA:
-      return [...state, { id: uuidv4(), property: properties[0], direction: directionForProperty(properties[0]) }]
+      return [...state, { id: uuidv4(), property: properties[0], direction: sortClassMap[properties[0]].initialDirection }]
     case CHANGE_SORT_CRITERIA_PROPERTY:
       return [
         ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], { property: action.property, direction: directionForProperty(action.property) }),
+        Object.assign({}, state[action.index], { property: action.property, direction: sortClassMap[action.property].initialDirection }),
         ...state.slice(action.index + 1)
       ];
     case CHANGE_SORT_CRITERIA_DIRECTION:

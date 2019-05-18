@@ -23,33 +23,29 @@ export default function SortCriteria({
       </button>
     </div>
     <div className="property">
-      <p><span>Property:</span></p>
-      <p>
-        <select value={property} onChange={(e) => changeProperty(e.target.value)}>
-          {properties.map(p => (<option key={p} value={p}>{p}</option>))}
-        </select>
-      </p>
+      <p>Property:</p>
+      <select value={property} onChange={(e) => changeProperty(e.target.value)}>
+        {properties.map(p => (<option key={p} value={p}>{p}</option>))}
+      </select>
     </div>
     <div className="direction">
       <p>Direction:</p>
-      <p>
-        <label>
-          <input type="radio"
-            value={"Asc"}
-            name={sortCriteria.id}
-            checked={direction === "Asc"}
-            onChange={() => changeDirection("Asc")} />
-          Asc
+      <label>
+        <input type="radio"
+          value={"Asc"}
+          name={sortCriteria.id}
+          checked={direction === "Asc"}
+          onChange={() => changeDirection("Asc")} />
+        Asc
         </label>
-        <label>
-          <input type="radio"
-            value={"Desc"}
-            name={sortCriteria.id}
-            checked={direction === "Desc"}
-            onChange={() => changeDirection("Desc")} />
-          Desc
+      <label>
+        <input type="radio"
+          value={"Desc"}
+          name={sortCriteria.id}
+          checked={direction === "Desc"}
+          onChange={() => changeDirection("Desc")} />
+        Desc
         </label>
-      </p>
     </div>
   </div >);
 }

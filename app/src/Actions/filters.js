@@ -6,7 +6,9 @@ import {
   TOGGLE_LIST_FILTER_VALUE,
   CHANGE_LIST_FILTER_INCLUDE_TYPE,
   REMOVE_LIST_FILTER_VALUE,
-  CHANGE_RANGE_FILTER_VALUE
+  CHANGE_RANGE_FILTER_VALUE,
+  CHANGE_STRING_FILTER_VALUE,
+  CHANGE_FILTER_STRING_MATCH_FLAGS
 } from "./index";
 
 export function addFilter() {
@@ -69,5 +71,23 @@ export function changeRangeFilterValue(index, { from, to }) {
     index,
     from,
     to
+  }
+}
+
+export function changeStringFilterValue(index, value) {
+  return {
+    type: CHANGE_STRING_FILTER_VALUE,
+    index,
+    value
+  }
+}
+
+export function changeFilterStringMatchFlags(index, { matchCase, wholeWord, regex }) {
+  return {
+    type: CHANGE_FILTER_STRING_MATCH_FLAGS,
+    index,
+    matchCase,
+    wholeWord,
+    regex
   }
 }
