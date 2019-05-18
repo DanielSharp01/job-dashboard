@@ -24,7 +24,7 @@
 
   button.close-button
   {
-    @extend %slick-button;
+    @include slick-button();
     position:absolute;
     right: 0;
     top: 0;

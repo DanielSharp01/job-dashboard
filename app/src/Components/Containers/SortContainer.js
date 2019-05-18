@@ -6,15 +6,19 @@ import {
   moveSortCriteria,
   removeSortCriteria
 } from "../../Actions/sortCriteria"
+import { getSortCriteria } from '../../Reducers/sortCriteriaSlots';
 
 import sortClassMap from "../../SortCriteria/sortMapping";
 
-const mapStateToProps = ({ sortCriteria }, { index }) => ({
-  ...sortCriteria[index],
-  properties: Object.keys(sortClassMap),
-  upButton: index > 0,
-  downButton: index < sortCriteria.length - 1
-});
+const mapStateToProps = ({ sortCriteriaSlots }, { index }) => {
+  let sortCriteria = getSortCriteria(sortCriteriaSlots);
+  return ({
+    ...sortCriteria[index],
+    properties: Object.keys(sortClassMap),
+    upButton: index > 0,
+    downButton: index < sortCriteria.length - 1
+  })
+};
 
 const mapDispatchToProps = (dispatch, { index }) => ({
   changeProperty: (property) => dispatch(changeSortCriteriaProperty(index, property)),

@@ -7,7 +7,7 @@ input, select
   padding: 4px;
 }
 
-%slick-button
+@mixin slick-button($color: $sidenavXFg, $color-hover: $foreground)
 {
   display: flex;
   background: none;
@@ -16,12 +16,21 @@ input, select
   justify-content: center;
   align-items: center;
   border: none;
-  color: $sidenavXFg;
+  color: $color;
+  cursor: pointer;
 
   &:hover
   {
-    color: $foreground;
-    cursor: pointer;
+    color: $color-hover;
+  }
+
+  &.disabled {
+    opacity: 0.2;
+    cursor: auto;
+    &:hover
+    {
+      color: $color;
+    }
   }
 }
 

@@ -34,16 +34,12 @@
 
     button
     {
-      @extend %slick-button;
+      @include slick-button();
 
       &.move-button
       {
         margin-top: 30px;
         font-size: 1em;
-      }
-      &:disabled
-      {
-        visibility: hidden;
       }
     }
   }

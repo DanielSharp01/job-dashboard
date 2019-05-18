@@ -19,7 +19,6 @@ export const fetchJobs = () => {
     try {
       let res = await fetch("http://localhost:3100/jobs");
       let jobs = await res.json();
-      console.log(jobs);
       dispatch(recieveJobs(jobs));
     }
     catch (err) {

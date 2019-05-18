@@ -13,9 +13,10 @@ import {
 } from "../../Actions/filters"
 
 import filterClassMap from "../../Filters/filterMapping";
+import { getFilters } from '../../Reducers/filterSlots';
 
-const mapStateToProps = ({ filters }, { index }) => ({
-  ...filters[index],
+const mapStateToProps = ({ filterSlots }, { index }) => ({
+  ...getFilters(filterSlots)[index],
   properties: Object.keys(filterClassMap),
 });
 

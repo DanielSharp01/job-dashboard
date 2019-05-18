@@ -6,6 +6,8 @@ import filterFuncMap from "../../Filters/filterFunctions";
 
 import sortClassMap from "../../SortCriteria/sortMapping";
 import sortFuncMap from "../../SortCriteria/sortFunctions"
+import { getFilters } from '../../Reducers/filterSlots';
+import { getSortCriteria } from '../../Reducers/sortCriteriaSlots';
 
 const filterJobs = (jobs, filters) => {
   if (filters.length === 0) return jobs;
@@ -24,8 +26,8 @@ const sortJobs = (jobs, sortCriteria) => {
   return sortJobs(jobs, sortCriteria.slice(0, -1));
 }
 
-const mapStateToProps = ({ jobs, filters, sortCriteria }) => ({
-  jobs: sortJobs(filterJobs(Object.values(jobs), filters), sortCriteria)
+const mapStateToProps = ({ jobs, filterSlots, sortCriteriaSlots }) => ({
+  jobs: sortJobs(filterJobs(Object.values(jobs), getFilters(filterSlots) || []), getSortCriteria(sortCriteriaSlots) || [])
 });
 
 const mapDispatchToProps = dispatch => ({});
