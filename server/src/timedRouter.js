@@ -18,10 +18,10 @@ function dispatch(req, mwChain, errorMiddleware = null, res = null) {
 
   mwChain[0](req, res, (err) => {
     if (err) {
-      errorMiddleware(req, res, (err) => {
+      errorMiddleware(err, req, res, (err) => {
         if (err) console.error(`Route ${req.name}`, "error middleware called itself, stack overflow what have ya!");
         else dispatch(req, mwChain.slice(1), errorMiddleware);
-      }, err);
+      });
     }
     else {
       dispatch(req, mwChain.slice(1), errorMiddleware, res);

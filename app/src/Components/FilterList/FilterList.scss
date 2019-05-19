@@ -6,13 +6,9 @@
   display: flex;
   flex-direction: column;
 
-  button
-  {
-    @include slick-button($sidenavElemBg);
-  }
-
   button.add-element
   {
+    @include slick-button($sidenavElemBg);
     align-self: center;
     margin: 10px;
     width: auto;
@@ -30,7 +26,35 @@
     }
 
     button {
+      @include slick-button($sidenavElemBg);
       font-size: 0.6em;
+    }
+
+    &.modified
+    {
+      outline: #bebe26 2px solid;
+
+      button.save {
+        @include slick-button(#bebe26);
+      }
+    }
+
+    &.saved
+    {
+      outline: #26be3f 2px solid;
+
+      button.save {
+        @include slick-button(#26be3f);
+      }
+    }
+
+    &.saving
+    {
+      outline: #26be3f83 2px solid;
+
+      button.save {
+        @include slick-button(#26be3f83);
+      }
     }
   }
 }

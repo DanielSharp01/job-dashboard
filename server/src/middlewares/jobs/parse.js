@@ -1,4 +1,4 @@
-import { parsePay } from "../parserCommons";
+import { parsePay } from "../../parserCommons";
 
 export default (req, res, next) => {
   for (let organization of req.organizations) {

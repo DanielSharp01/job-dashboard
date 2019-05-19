@@ -3,7 +3,7 @@ import TextSelect from "../Input/TextSelect/TextSelect";
 import SortContainer from '../Containers/SortContainer';
 import "./SortList.scss";
 
-export default function FilterList({
+export default function SortList({
   sortCriteria,
   slots,
   selectedSlot,
@@ -16,17 +16,19 @@ export default function FilterList({
   onSlotRemoved,
   onSlotSaved
 }) {
+  let { saving, saved, modified } = selectedSlot ? slots[selectedSlot] : { saving: false, saved: false, modified: false };
+  let slotClassName = "slot" + (saving ? " saving" : saved ? modified ? " modified" : " saved" : "");
   return <div className="sort-list">
     <h2>Order by</h2>
     Slot:
-    <div className="slot">
+    <div className={slotClassName}>
       <TextSelect entries={Object.keys(slots)} value={addText} id="sort-slots"
         onChange={value => onAddTextChanged(value)}
         onClickChange={value => onSlotChanged(value)} />
       <button disabled={selectedSlot === addText || addText === ""} onClick={() => onSlotAdded()}>
         <i className="fas fa-plus"></i>
       </button>
-      <button disabled={!selectedSlot} onClick={() => selectedSlot && onSlotSaved()}>
+      <button className="save" disabled={!selectedSlot} onClick={() => selectedSlot && onSlotSaved()}>
         <i className="fas fa-cloud-upload-alt"></i>
       </button>
       <button disabled={!selectedSlot || selectedSlot === "Notification Filter"}

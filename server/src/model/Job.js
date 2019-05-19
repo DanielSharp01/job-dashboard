@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import db from "./db";
 import moment from "moment";
 
 const JobSchema = new Schema({
@@ -16,7 +15,8 @@ const JobSchema = new Schema({
     max: Number
   },
   tags: [String],
-  date: Date
+  date: Date,
+  read: Boolean
 });
 
 JobSchema.index({ id: 1, organization: 1 }, { unique: true });

@@ -84,27 +84,27 @@ export function savingSortCriteriaSlot(name) {
 
 export function saveSortCriteriaSlot() {
   return async (dispatch, getState) => {
+    let sortCriteria = getState().sortCriteriaSlots;
     try {
-      let sortCriteria = getState().sortCriteriaSlots;
       dispatch(savingSortCriteriaSlot(sortCriteria.selectedSlot));
-      let body = { slot: sortCriteria.selectedSlot, sortCriteria: getSortCriteria(sortCriteria) }
+      let body = { slot: sortCriteria.selectedSlot, content: getSortCriteria(sortCriteria) }
       await fetch("http://localhost:3100/sort-criteria-slots", {
         method: "POST",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
       });
-      dispatch(savedSortCriteriaSlot(sortCriteria.selectedSlot));
+      dispatch(savedSortCriteriaSlot(sortCriteria.selectedSlot, true));
     }
     catch (err) {
-      console.error(err);
-      // TODO: Maybe handle in the future
+      dispatch(savedSortCriteriaSlot(sortCriteria.selectedSlot, false));
     }
   }
 }
 
-export function savedSortCriteriaSlot(name) {
+export function savedSortCriteriaSlot(name, success) {
   return {
     type: SAVED_SORT_CRITERIA_SLOT,
-    name
+    name,
+    success
   }
 }

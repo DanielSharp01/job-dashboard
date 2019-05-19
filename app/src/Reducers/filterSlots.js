@@ -7,6 +7,17 @@ import {
   REMOVE_FILTER_SLOT,
   SAVING_FILTER_SLOT,
   SAVED_FILTER_SLOT,
+
+  ADD_FILTER,
+  CHANGE_FILTER_PROPERTY,
+  REMOVE_FILTER,
+  ADD_LIST_FILTER_VALUE,
+  TOGGLE_LIST_FILTER_VALUE,
+  REMOVE_LIST_FILTER_VALUE,
+  CHANGE_LIST_FILTER_INCLUDE_TYPE,
+  CHANGE_RANGE_FILTER_VALUE,
+  CHANGE_STRING_FILTER_VALUE,
+  CHANGE_FILTER_STRING_MATCH_FLAGS
 } from "../Actions";
 
 import filters from "./filters";
@@ -14,13 +25,13 @@ import filters from "./filters";
 export default (state = {
   addText: "Notification Filter",
   selectedSlot: "Notification Filter",
-  slots: { "Notification Filter": { filters: [], saving: false } }
+  slots: { "Notification Filter": { filters: [], saving: false, saved: false, modified: false } }
 }, action) => {
   let newSlots, slot, newSelectedSlot;
   switch (action.type) {
     case RECIEVE_FILTER_SLOTS:
-      let actionSlots = Object.keys(action.slots).reduce((acc, key) => {
-        acc[key] = { filters: action.slots[key], saving: false };
+      let actionSlots = action.slots.reduce((acc, slot) => {
+        acc[slot.name] = { filters: slot.content, saving: false, saved: true, modified: false };
         return acc;
       }, {});
       return Object.assign({ ...state }, { slots: { ...state.slots, ...actionSlots } });
@@ -28,7 +39,7 @@ export default (state = {
       if (state.addText === state.selectedSlot) return state;
       return Object.assign({ ...state }, {
         selectedSlot: state.addText, slots:
-          { ...state.slots, [state.addText]: { filters: [], saving: false } }
+          { ...state.slots, [state.addText]: { filters: [], saving: false, modified: false } }
       });
     case CHANGE_FILTER_SLOT_ADD_TEXT:
       return Object.assign({ ...state }, { addText: action.text });
@@ -59,16 +70,31 @@ export default (state = {
         slots: Object.assign({ ...state.slots }, { [state.selectedSlot]: slot })
       });
     case SAVED_FILTER_SLOT:
-      slot = Object.assign({ ...state.slots[state.selectedSlot] }, { saving: false });
+      let prevSaved = state.slots[state.selectedSlot].saved;
+      let prevModified = state.slots[state.selectedSlot].modified;
+      slot = Object.assign({ ...state.slots[state.selectedSlot] },
+        { saving: false, saved: action.success || prevSaved, modified: !action.success && prevModified });
       return Object.assign({ ...state }, {
         slots: Object.assign({ ...state.slots }, { [state.selectedSlot]: slot })
       });
-    default:
+    case ADD_FILTER:
+    case CHANGE_FILTER_PROPERTY:
+    case REMOVE_FILTER:
+    case ADD_LIST_FILTER_VALUE:
+    case TOGGLE_LIST_FILTER_VALUE:
+    case REMOVE_LIST_FILTER_VALUE:
+    case CHANGE_LIST_FILTER_INCLUDE_TYPE:
+    case CHANGE_RANGE_FILTER_VALUE:
+    case CHANGE_STRING_FILTER_VALUE:
+    case CHANGE_FILTER_STRING_MATCH_FLAGS:
       newSlots = { ...state.slots };
       if (state.selectedSlot) {
         newSlots[state.selectedSlot].filters = filters(newSlots[state.selectedSlot].filters, action);
+        newSlots[state.selectedSlot].modified = true;
       }
       return Object.assign({ ...state }, { slots: newSlots });
+    default:
+      return state;
   }
 }
 

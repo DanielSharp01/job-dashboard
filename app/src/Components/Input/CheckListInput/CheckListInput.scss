@@ -12,7 +12,7 @@
     position: relative;
     margin: 8px 0;
 
-    button
+    button.delete-button
     {
       @include slick-button();
       font-size: 0.6em;

@@ -1,4 +1,4 @@
-import Job from "../Job";
+import Job from "../../model/Job";
 
 export default (sseSendAll) => async (req, res, next) => {
   console.log(`Route ${req.name}`, `Diffing ${res.jobs.length} jobs.`);

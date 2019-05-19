@@ -1,12 +1,12 @@
+import getSlots from "../middlewares/slots/getSlots";
+import saveSlot from "../middlewares/slots/saveSlot";
+import deleteSlot from "../middlewares/slots/deleteSlot";
+
 export default (app) => {
-  let sortCriteriaSlots = {};
+  app.get('/sort-criteria-slots', getSlots("SortCriteriaSlot"),
+    (req, res, next) => { res.send(res.slots) });
 
-  app.get('/sort-criteria-slots',
-    (req, res, next) => { res.send(sortCriteriaSlots) });
+  app.post('/sort-criteria-slots', saveSlot("SortCriteriaSlot"), (req, res, next) => res.status(200).send());
 
-  app.post('/sort-criteria-slots',
-    (req, res, next) => { sortCriteriaSlots[req.body.slot] = req.body.sortCriteria; res.send() });
-
-  app.delete('/sort-criteria-slots',
-    (req, res, next) => { delete sortCriteriaSlots[req.body.slot]; res.send() });
+  app.delete('/sort-criteria-slots', deleteSlot("SortCriteriaSlot"), (req, res, next) => res.status(200).send());
 }

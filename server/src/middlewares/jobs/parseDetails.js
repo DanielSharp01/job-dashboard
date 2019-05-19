@@ -1,4 +1,4 @@
-import { normalizeString, bestHourGuessFromRegex } from "../parserCommons";
+import { normalizeString, bestHourGuessFromRegex } from "../../parserCommons";
 
 let textTags = ["C#", "C++", "JS", "Javascript",
   "Node", "MySQL", "MongoDb", "Oracle", "HTML",

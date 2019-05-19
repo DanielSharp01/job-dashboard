@@ -1,13 +1,12 @@
+import getSlots from "../middlewares/slots/getSlots";
+import saveSlot from "../middlewares/slots/saveSlot";
+import deleteSlot from "../middlewares/slots/deleteSlot";
+
 export default (app) => {
+  app.get('/filter-slots', getSlots("FilterSlot"),
+    (req, res, next) => { res.send(res.slots) });
 
-  let filterSlots = {};
+  app.post('/filter-slots', saveSlot("FilterSlot"), (req, res, next) => res.status(200).send());
 
-  app.get('/filter-slots',
-    (req, res, next) => { res.send(filterSlots) });
-
-  app.post('/filter-slots',
-    (req, res, next) => { filterSlots[req.body.slot] = req.body.filters; res.send() });
-
-  app.delete('/filter-slots',
-    (req, res, next) => { delete filterSlots[req.body.slot]; res.send() });
+  app.delete('/filter-slots', deleteSlot("FilterSlot"), (req, res, next) => res.status(200).send());
 }

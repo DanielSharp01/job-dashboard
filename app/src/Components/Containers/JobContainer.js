@@ -9,6 +9,8 @@ import sortFuncMap from "../../SortCriteria/sortFunctions"
 import { getFilters } from '../../Reducers/filterSlots';
 import { getSortCriteria } from '../../Reducers/sortCriteriaSlots';
 
+import { markJobReadOnServer } from "../../Actions/jobs";
+
 const filterJobs = (jobs, filters) => {
   if (filters.length === 0) return jobs;
   let filterClass = filterClassMap[filters[0].property];
@@ -30,7 +32,9 @@ const mapStateToProps = ({ jobs, filterSlots, sortCriteriaSlots }) => ({
   jobs: sortJobs(filterJobs(Object.values(jobs), getFilters(filterSlots) || []), getSortCriteria(sortCriteriaSlots) || [])
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  markAsRead: (id) => dispatch(markJobReadOnServer(id))
+});
 
 export default connect(
   mapStateToProps,

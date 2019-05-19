@@ -1,10 +1,11 @@
-import request from "../middlewares/request"
-import parse from "../middlewares/parse";
-import requestDetails from "../middlewares/requestDetails";
-import parseDetails from "../middlewares/parseDetails";
-import jobDiff from "../middlewares/jobDiff";
-import saveJobs from "../middlewares/saveJobs";
-import getJobs from "../middlewares/getJobs";
+import request from "../middlewares/jobs/request"
+import parse from "../middlewares/jobs/parse";
+import requestDetails from "../middlewares/jobs/requestDetails";
+import parseDetails from "../middlewares/jobs/parseDetails";
+import jobDiff from "../middlewares/jobs/jobDiff";
+import saveJobs from "../middlewares/jobs/saveJobs";
+import getJobs from "../middlewares/jobs/getJobs";
+import markJobRead from "../middlewares/jobs/markJobRead";
 import sse from "../middlewares/sse";
 import every from "../timedRouter";
 
@@ -14,6 +15,7 @@ export default (app) => {
     getJobs,
     (req, res, next) => { res.send(res.jobs) });
 
+  app.post("/jobs/mark-read", markJobRead, (req, res, next) => res.send());
 
   const sseClients = {};
 
@@ -22,6 +24,7 @@ export default (app) => {
       sseClients[clientId].sendEvent({ id, event, data });
     }
   }
+
 
   app.get('/job-events', sse(sseClients));
 

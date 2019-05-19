@@ -84,27 +84,27 @@ export function savingFilterSlot(name) {
 
 export function saveFilterSlot() {
   return async (dispatch, getState) => {
+    let filterSlots = getState().filterSlots;
     try {
-      let filterSlots = getState().filterSlots;
       dispatch(savingFilterSlot(filterSlots.selectedSlot));
-      let body = { slot: filterSlots.selectedSlot, filters: getFilters(filterSlots) };
+      let body = { slot: filterSlots.selectedSlot, content: getFilters(filterSlots) };
       await fetch("http://localhost:3100/filter-slots", {
         method: "POST",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
       });
-      dispatch(savedFilterSlot(filterSlots.selectedSlot));
+      dispatch(savedFilterSlot(filterSlots.selectedSlot, true));
     }
     catch (err) {
-      console.error(err);
-      // TODO: Maybe handle in the future
+      dispatch(savedFilterSlot(filterSlots.selectedSlot, false));
     }
   }
 }
 
-export function savedFilterSlot(name) {
+export function savedFilterSlot(name, success) {
   return {
     type: SAVED_FILTER_SLOT,
-    name
+    name,
+    success
   }
 }

@@ -1,4 +1,4 @@
-import request from "../requestPromise";
+import request from "../../requestPromise";
 import cheerio from "cheerio";
 import iconv from "iconv-lite";
 import { Buffer } from "buffer";
