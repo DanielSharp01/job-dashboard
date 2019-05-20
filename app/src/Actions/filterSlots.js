@@ -52,13 +52,34 @@ export function changeFilterSlot(name) {
   }
 }
 
-export function renameFilterSlot(name) {
+export function renameFilterSlot() {
   return {
     type: RENAME_FILTER_SLOT
   }
 }
 
-export function removeFilterSlot(name) {
+export function renameFilterSlotOnServer() {
+  return async (dispatch, getState) => {
+    try {
+      let selectedSlot = getState().filterSlots.selectedSlot;
+      dispatch(renameFilterSlot());
+      let body = { slot: selectedSlot }
+      if (!getState().filterSlots.slots[selectedSlot].saved) return;
+      await fetch("http://localhost:3100/filter-slots", {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+      dispatch(saveFilterSlot());
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
+  }
+}
+
+export function removeFilterSlot() {
   return async (dispatch, getState) => {
     try {
       let body = { slot: getState().filterSlots.selectedSlot }
@@ -76,7 +97,7 @@ export function removeFilterSlot(name) {
   }
 }
 
-export function savingFilterSlot(name) {
+export function savingFilterSlot() {
   return {
     type: SAVING_FILTER_SLOT
   }

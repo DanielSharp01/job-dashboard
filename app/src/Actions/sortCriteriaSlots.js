@@ -52,13 +52,34 @@ export function changeSortCriteriaSlot(name) {
   }
 }
 
-export function renameSortCriteriaSlot(name) {
+export function renameSortCriteriaSlot() {
   return {
     type: RENAME_SORT_CRITERIA_SLOT
   }
 }
 
-export function removeSortCriteriaSlot(name) {
+export function renameSortCriteriaSlotOnServer() {
+  return async (dispatch, getState) => {
+    try {
+      let selectedSlot = getState().sortCriteriaSlots.selectedSlot;
+      dispatch(renameSortCriteriaSlot());
+      let body = { slot: selectedSlot }
+      if (!getState().sortCriteriaSlots.slots[selectedSlot].saved) return;
+      await fetch("http://localhost:3100/sort-criteria-slots", {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: new Headers({ 'content-type': 'application/json' })
+      });
+      dispatch(saveSortCriteriaSlot());
+    }
+    catch (err) {
+      console.error(err);
+      // TODO: Maybe handle in the future
+    }
+  }
+}
+
+export function removeSortCriteriaSlot() {
   return async (dispatch, getState) => {
     try {
       let body = { slot: getState().sortCriteriaSlots.selectedSlot }
@@ -76,7 +97,7 @@ export function removeSortCriteriaSlot(name) {
   }
 }
 
-export function savingSortCriteriaSlot(name) {
+export function savingSortCriteriaSlot() {
   return {
     type: SAVING_SORT_CRITERIA_SLOT
   }

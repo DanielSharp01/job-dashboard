@@ -7,7 +7,7 @@ import {
   addSortCriteriaSlot,
   changeSortCriteriaSlotAddText,
   changeSortCriteriaSlot,
-  renameSortCriteriaSlot,
+  renameSortCriteriaSlotOnServer,
   removeSortCriteriaSlot,
   saveSortCriteriaSlot
 } from "../../Actions/sortCriteriaSlots"
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   onAddTextChanged: (value) => dispatch(changeSortCriteriaSlotAddText(value)),
   onSlotAdded: () => dispatch(addSortCriteriaSlot()),
   onSlotChanged: (value) => dispatch(changeSortCriteriaSlot(value)),
-  onSlotRenamed: () => dispatch(renameSortCriteriaSlot()),
+  onSlotRenamed: () => dispatch(renameSortCriteriaSlotOnServer()),
   onSlotRemoved: () => dispatch(removeSortCriteriaSlot()),
   onSlotSaved: () => dispatch(saveSortCriteriaSlot()),
 });

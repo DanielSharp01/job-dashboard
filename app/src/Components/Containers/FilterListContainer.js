@@ -7,7 +7,7 @@ import {
   addFilterSlot,
   changeFilterSlotAddText,
   changeFilterSlot,
-  renameFilterSlot,
+  renameFilterSlotOnServer,
   removeFilterSlot,
   saveFilterSlot
 } from "../../Actions/filterSlots"
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   onAddTextChanged: (value) => dispatch(changeFilterSlotAddText(value)),
   onSlotAdded: () => dispatch(addFilterSlot()),
   onSlotChanged: (value) => dispatch(changeFilterSlot(value)),
-  onSlotRenamed: () => dispatch(renameFilterSlot()),
+  onSlotRenamed: () => dispatch(renameFilterSlotOnServer()),
   onSlotRemoved: () => dispatch(removeFilterSlot()),
   onSlotSaved: () => dispatch(saveFilterSlot()),
 });
