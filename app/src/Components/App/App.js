@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
-import Header from "../Header/Header";
 import Sidenav from "../Sidenav/Sidenav";
 import JobContainer from "../Containers/JobContainer";
 import "./App.scss";
+import HeaderContainer from '../Containers/HeaderContainer';
 
 export default function App() {
   return <Fragment>
-    <Header />
+    <HeaderContainer />
     <div className="wrapper">
       <Sidenav />
       <JobContainer />

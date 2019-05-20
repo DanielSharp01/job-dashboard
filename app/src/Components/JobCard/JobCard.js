@@ -2,7 +2,7 @@ import React from 'react';
 import "./JobCard.scss";
 import moment from "moment";
 
-export default function JobCard({ name, link, pay, tags, organization, hours, date, read, compact, onRead }) {
+export default function JobCard({ name, link, pay, tags, organization, hours, date, read, className, onRead }) {
   let hoursClass = !hours || !trueOr0(hours.min) ? "gray" :
     hours.min <= 15 ? "green" :
       hours.min <= 20 ? "yellow" :
@@ -16,8 +16,9 @@ export default function JobCard({ name, link, pay, tags, organization, hours, da
   let hoursText = dashedText(hours) + " hrs";
   let payText = dashedText(pay) + " Ft/hr";
 
-  return <div className={`job-card ${(compact ? " compact" : "")}`} onClick={() => { onRead(); window.open(link); }}>
-    {moment(date).add(1, "d").isAfter(moment()) && !read && <div className="new">New</div>}
+  let showNew = className === "notification" || ((className === "compact" || moment(date).add(1, "d").isAfter(moment())) && read);
+  return <div className={`job-card ${(className)}`} onClick={() => { onRead(); window.open(link); }}>
+    {showNew && <div className="new">New</div>}
     <div className="top-wrapper">
       <div className="header">{name}</div>
       <div className="tags">

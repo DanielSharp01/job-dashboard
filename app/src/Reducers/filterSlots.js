@@ -101,3 +101,7 @@ export default (state = {
 export function getFilters({ slots, selectedSlot }) {
   return slots[selectedSlot] && slots[selectedSlot].filters;
 }
+
+export function getNotificationFilters({ slots }) {
+  return slots["Notification Filter"].filters;
+}

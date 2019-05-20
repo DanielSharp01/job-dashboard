@@ -2,22 +2,41 @@
 
 .job-card
 {
+  &.compact
+  {
+    font-size: 0.6em;
+    margin: 0;
+    border-top: lighten($elementBg, 20%) 1px solid;
+  }
+
+  &.notification
+  {
+    font-size: 0.8em;
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 600px;
+  width: 37.5em;
   background:  $elementBg;
-  box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
-  margin: 16px;
-  padding: 4px 10px;
+  box-shadow: 0 0.125em 0.375em 0.125em rgba(3, 3, 3, 0.7);
+  margin: 1em;
+  padding: 0.25em 0.625em;
   cursor: pointer;
-  transform: scale(1.0);
+  transform: scale(1);
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   position: relative;
 
+  &.compact .new
+  {
+    top: 5px;
+    right: 5px;
+    transform: rotate(10deg);
+  }
+
   .new
   {
-    padding: 4px 10px;
+    padding: 0.25em 0.625em;
     background: #900e0e;
     top: 0px;
     right: 0px;
@@ -25,7 +44,7 @@
     position: absolute;
   }
 
-  &:hover
+  &:not(.compact) &:hover
   {
     box-shadow: 0 2px 12px 2px rgba(3, 3, 3, 0.7);
     transform: scale(1.05);
@@ -36,7 +55,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 8px 0px;
+    margin: 0.5em 0;
     font-size: 1.5em;
     font-weight: 500;
   }
@@ -46,18 +65,18 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 8px 0px;
+    margin: 0.5em 0;
     .tag
     {
       background: $tagBg;
-      padding: 10px 20px;
-      margin: 2px;
+      padding: 0.625em 1.25em;
+      margin: 0.125em;
     }
   }
 
   .footer
   {
-    margin: 8px 0px;
+    margin: 0.5em 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -72,8 +91,8 @@
     .organization
     {
       background: $orgBg;
-      padding: 10px 20px;
-      margin: 2px;
+      padding: 0.625em 1.25em;
+      margin: 0.125em;
     }
 
     div
@@ -106,8 +125,8 @@
 
     .hours, .pay
     {
-      padding: 10px 20px;
-      margin: 2px;
+      padding: 0.625em 1.25em;
+      margin: 0.125em;
     }
 
     .date

@@ -5,6 +5,6 @@ import "./JobCards.scss";
 
 export default function JobCards({ jobs, markAsRead }) {
   return <Masonry className="card-grid" options={{ transitionDuration: 0 }} >
-    {jobs.map((job) => <JobCard onRead={() => markAsRead(job.id)} key={job.id} {...job} compact={false} />)}
+    {jobs.map((job) => <JobCard onRead={() => markAsRead(job.id)} key={job.id} {...job} />)}
   </ Masonry>
 }

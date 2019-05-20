@@ -9,6 +9,7 @@ import App from './Components/App/App';
 import { fetchJobs, recieveJobs, removeJobs } from './Actions/jobs';
 import { fetchFilterSlots } from "./Actions/filterSlots";
 import { fetchSortCriteriaSlots } from "./Actions/sortCriteriaSlots";
+import { popupNotificationThunk } from "./Actions/notifications";
 
 objectUtils(); // Creates util functions on Object
 
@@ -29,6 +30,12 @@ ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementB
 store.dispatch(fetchJobs());
 store.dispatch(fetchFilterSlots());
 store.dispatch(fetchSortCriteriaSlots());
+
+setTimeout(() => {
+  for (let job of Object.values(store.getState().jobs)) {
+    store.dispatch(popupNotificationThunk(job));
+  }
+}, 1000);
 
 const sseSource = new EventSource('http://localhost:3100/job-events');
 sseSource.addEventListener('added-jobs', (e) => {

@@ -1,10 +1,12 @@
 import moment from "moment";
+import filterClassMap from "./filterMapping";
 
-export default {
+const filterFuncMap = {
   "RANGE": rangeFilter,
   "LIST": listFilter,
   "STRING": stringFilter
 }
+export default filterFuncMap;
 
 function rangeFilter(filterClass, job, filterInstance) {
   let propertyVal = filterClass.property(job);
@@ -103,4 +105,12 @@ function listFilter(filterClass, job, filterInstance) {
 function stringFilter(filterClass, job, filterInstance) {
   return includeFunctions[`${filterInstance.matchCase}.${filterInstance.wholeWord}.${filterInstance.regex}`](
     filterClass.property(job), filterInstance.string);
+}
+
+export const filterJobs = (jobs, filters) => {
+  if (filters.length === 0) return jobs;
+  let filterClass = filterClassMap[filters[0].property];
+  let filterFunc = filterFuncMap[filterClass.type];
+  jobs = jobs.filter((job) => filterFunc(filterClass, job, filters[0]));
+  return filterJobs(jobs, filters.slice(1));
 }

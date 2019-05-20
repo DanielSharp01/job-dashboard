@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import "./Header.scss";
+import JobCard from "../JobCard/JobCard"
 
-export default function Header() {
-  return <header>
-    <h1>Job dashboard</h1>
-  </header>
+export default class Header extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { openPanel: false }
+  }
+
+  render() {
+    // TODO: Separate out components
+    return <header>
+      <h1>Job dashboard</h1>
+      <div className="notification-icon" onClick={() => {
+        if (this.props.jobs.length > 0) this.setState({ openPanel: !this.state.openPanel })
+      }}>
+        <i class="fas fa-bell"></i>
+        {this.state.openPanel && <div className="notification-panel">
+          {this.props.jobs.map((job) =>
+            <JobCard onRead={() => this.props.markAsRead(job.id)} key={job.id} {...job} className={"compact"} />)}
+        </div>}
+        {this.props.jobs.length > 0 && <div className="notification-counter">
+          {this.props.jobs.filter(j => !j.read).length}
+        </div>}
+      </div>
+      {
+        this.props.popupJob && <div className="popup-notification" key={this.props.popupJob.id}>
+          <JobCard onRead={() => this.props.markAsRead(this.props.popupJob.id)}
+            {...this.props.popupJob} className={"notification"} />
+        </div>
+      }
+    </header >
+  }
 }
