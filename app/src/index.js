@@ -9,6 +9,7 @@ import App from './Components/App/App';
 import { fetchJobs, recieveJobsThunk, removeJobs } from './Actions/jobs';
 import { fetchFilterSlots } from "./Actions/filterSlots";
 import { fetchSortCriteriaSlots } from "./Actions/sortCriteriaSlots";
+let env = process.env.NODE_ENV || 'dev';
 
 objectUtils(); // Creates util functions on Object
 
@@ -24,13 +25,13 @@ const logMW = (store) => (next) => {
   }
 }
 
-const store = createStore(reducer, applyMiddleware(logMW, thunk));
+const store = createStore(reducer, (env === "dev") ? applyMiddleware(logMW, thunk) : applyMiddleware(thunk));
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 store.dispatch(fetchJobs());
 store.dispatch(fetchFilterSlots());
 store.dispatch(fetchSortCriteriaSlots());
 
-const sseSource = new EventSource('http://localhost:3100/job-events');
+const sseSource = new EventSource('/job-events');
 sseSource.addEventListener('added-jobs', (e) => {
   store.dispatch(recieveJobsThunk(JSON.parse(e.data)));
 });
