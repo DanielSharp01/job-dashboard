@@ -16,6 +16,7 @@ const JobSchema = new Schema({
   },
   tags: [String],
   date: Date,
+  notify: Boolean,
   read: Boolean
 });
 

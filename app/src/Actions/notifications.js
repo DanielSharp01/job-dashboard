@@ -15,7 +15,7 @@ export function popupNotificationExpired() {
 
 export function popupNotificationThunk(job) {
   return (dispatch, getState) => {
-    if (getState().notifications.length === 0) setTimeout(() => dispatch(popupNotificationExpiredThunk()), 10000);
+    if (getState().notifications.popupStack.length === 0) setTimeout(() => dispatch(popupNotificationExpiredThunk()), 10000);
     dispatch(popupNotification(job));
   }
 }
@@ -23,7 +23,7 @@ export function popupNotificationThunk(job) {
 export function popupNotificationExpiredThunk() {
   return (dispatch, getState) => {
     dispatch(popupNotificationExpired());
-    if (getState().notifications.length > 0) {
+    if (getState().notifications.popupStack.length > 0) {
       setTimeout(() => dispatch(popupNotificationExpiredThunk()), 10000);
     }
   }

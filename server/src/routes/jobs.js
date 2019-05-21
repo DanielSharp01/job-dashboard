@@ -4,10 +4,14 @@ import requestDetails from "../middlewares/jobs/requestDetails";
 import parseDetails from "../middlewares/jobs/parseDetails";
 import jobDiff from "../middlewares/jobs/jobDiff";
 import saveJobs from "../middlewares/jobs/saveJobs";
-import getJobs from "../middlewares/jobs/getJobs";
+import getJobs, { renderJobObject } from "../middlewares/jobs/getJobs";
 import markJobRead from "../middlewares/jobs/markJobRead";
+import notifyJobs from "../middlewares/jobs/notifyJobs";
+import getNotifyDate from "../middlewares/jobs/getNotifyDate";
 import sse from "../middlewares/sse";
 import every from "../timedRouter";
+import moment from "moment";
+import Job from "../model/Job";
 
 
 export default (app) => {
@@ -16,6 +20,9 @@ export default (app) => {
     (req, res, next) => { res.send(res.jobs) });
 
   app.post("/jobs/mark-read", markJobRead, (req, res, next) => res.send());
+
+  app.post("/jobs/notify", notifyJobs, (req, res, next) => res.send());
+  app.get("/jobs/notify-date", getNotifyDate, (req, res, next) => res.send(res.notifyDate));
 
   const sseClients = {};
 

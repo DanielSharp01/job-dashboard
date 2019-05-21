@@ -6,10 +6,9 @@ import reducer from "./Reducers";
 import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import App from './Components/App/App';
-import { fetchJobs, recieveJobs, removeJobs } from './Actions/jobs';
+import { fetchJobs, recieveJobsThunk, removeJobs } from './Actions/jobs';
 import { fetchFilterSlots } from "./Actions/filterSlots";
 import { fetchSortCriteriaSlots } from "./Actions/sortCriteriaSlots";
-import { popupNotificationThunk } from "./Actions/notifications";
 
 objectUtils(); // Creates util functions on Object
 
@@ -31,15 +30,9 @@ store.dispatch(fetchJobs());
 store.dispatch(fetchFilterSlots());
 store.dispatch(fetchSortCriteriaSlots());
 
-setTimeout(() => {
-  for (let job of Object.values(store.getState().jobs)) {
-    store.dispatch(popupNotificationThunk(job));
-  }
-}, 1000);
-
 const sseSource = new EventSource('http://localhost:3100/job-events');
 sseSource.addEventListener('added-jobs', (e) => {
-  store.dispatch(recieveJobs(JSON.parse(e.data)));
+  store.dispatch(recieveJobsThunk(JSON.parse(e.data)));
 });
 
 sseSource.addEventListener('removed-jobs', (e) => {

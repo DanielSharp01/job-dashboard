@@ -3,7 +3,6 @@ import { renderJobObject } from "./getJobs";
 export default (sseSendAll) => async (req, res, next) => {
 
   let modifiedJobs = res.jobs.filter(job => job.isModified());
-  if (modifiedJobs.length > 0) sseSendAll({ event: "added-jobs", data: modifiedJobs.map(renderJobObject) });
 
   let promises = [];
   for (let job of modifiedJobs) {
@@ -21,5 +20,6 @@ export default (sseSendAll) => async (req, res, next) => {
 
   console.log(`Route ${req.name}`, `saving ${modifiedJobs.length} jobs.`);
   await Promise.all(promises);
+  if (modifiedJobs.length > 0) sseSendAll({ event: "added-jobs", data: modifiedJobs.map(renderJobObject) });
   return next();
 };

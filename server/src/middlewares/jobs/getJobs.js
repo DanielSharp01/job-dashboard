@@ -10,6 +10,7 @@ export const renderJobObject = (job) => ({
   hours: job.hours,
   tags: job.tags,
   date: job.date,
+  notify: job.notify,
   read: job.read
 });
 

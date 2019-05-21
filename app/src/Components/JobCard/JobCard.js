@@ -16,8 +16,8 @@ export default function JobCard({ name, link, pay, tags, organization, hours, da
   let hoursText = dashedText(hours) + " hrs";
   let payText = dashedText(pay) + " Ft/hr";
 
-  let showNew = className === "notification" || ((className === "compact" || moment(date).add(1, "d").isAfter(moment())) && read);
-  return <div className={`job-card ${(className)}`} onClick={() => { onRead(); window.open(link); }}>
+  let showNew = className === "notification" || ((className === "compact" || moment(date).add(1, "d").isAfter(moment())) && !read);
+  return <div className={`job-card ${(className ? className : "")}`} onClick={() => { onRead(); window.open(link); }}>
     {showNew && <div className="new">New</div>}
     <div className="top-wrapper">
       <div className="header">{name}</div>
@@ -35,7 +35,7 @@ export default function JobCard({ name, link, pay, tags, organization, hours, da
           {payText}
         </div>
       </div>
-      <span className="date">{moment(date).format("YYYY.MM.DD.")}</span>
+      <span className="date">{moment(date).format("YYYY.MM.DD. HH:MM:ss")}</span>
     </div>
   </div>
 }

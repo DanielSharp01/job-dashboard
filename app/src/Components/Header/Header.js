@@ -15,7 +15,7 @@ export default class Header extends Component {
       <div className="notification-icon" onClick={() => {
         if (this.props.jobs.length > 0) this.setState({ openPanel: !this.state.openPanel })
       }}>
-        <i class="fas fa-bell"></i>
+        <i className="fas fa-bell"></i>
         {this.state.openPanel && <div className="notification-panel">
           {this.props.jobs.map((job) =>
             <JobCard onRead={() => this.props.markAsRead(job.id)} key={job.id} {...job} className={"compact"} />)}
