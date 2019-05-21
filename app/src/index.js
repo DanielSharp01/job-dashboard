@@ -9,7 +9,7 @@ import App from './Components/App/App';
 import { fetchJobs, recieveJobsThunk, removeJobs } from './Actions/jobs';
 import { fetchFilterSlots } from "./Actions/filterSlots";
 import { fetchSortCriteriaSlots } from "./Actions/sortCriteriaSlots";
-let env = process.env.NODE_ENV || 'dev';
+let env = 'dev';
 
 objectUtils(); // Creates util functions on Object
 

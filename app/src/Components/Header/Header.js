@@ -20,7 +20,7 @@ export default class Header extends Component {
           {this.props.jobs.map((job) =>
             <JobCard onRead={() => this.props.markAsRead(job.id)} key={job.id} {...job} className={"compact"} />)}
         </div>}
-        {this.props.jobs.length > 0 && <div className="notification-counter">
+        {this.props.jobs.filter(j => !j.read).length > 0 && <div className="notification-counter">
           {this.props.jobs.filter(j => !j.read).length}
         </div>}
       </div>

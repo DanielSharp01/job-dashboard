@@ -5,9 +5,13 @@ import moment from "moment";
 export default async (req, res, next) => {
   if (!req.body.ids) return next(400); // TODO: Better error handling
   try {
-    let notifications = await Notification.find({});
-    if (notifications.length === 0) {
-      let notification = new Notification();
+    let notification = await Notification.findOne({});
+    if (!notificaiton) {
+      notification = new Notification();
+      notification.timestamp = moment();
+      await notification.save();
+    }
+    else {
       notification.timestamp = moment();
       await notification.save();
     }
