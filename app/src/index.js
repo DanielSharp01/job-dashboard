@@ -31,7 +31,7 @@ store.dispatch(fetchJobs());
 store.dispatch(fetchFilterSlots());
 store.dispatch(fetchSortCriteriaSlots());
 
-const sseSource = new EventSource('/job-events');
+const sseSource = new EventSource('/job-dashboard/job-events');
 sseSource.addEventListener('added-jobs', (e) => {
   store.dispatch(recieveJobsThunk(JSON.parse(e.data)));
 });

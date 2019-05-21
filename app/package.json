@@ -13,6 +13,7 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
   },
+  "homepage": "/job-dashboard",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

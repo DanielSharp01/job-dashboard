@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/", express.static("public"));
+app.use("/job-dashboard", express.static("public"));
 
 jobs(app);
 filterSlots(app);
@@ -21,4 +21,4 @@ app.use((err, req, res, next) => {
   res.status(typeof err === "number" ? err : 500).send(); // TODO: Better error handling
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}!`));
+app.listen(port, "localhost", () => console.log(`Listening on port ${port}!`));
