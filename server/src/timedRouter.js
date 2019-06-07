@@ -16,14 +16,13 @@ function dispatch(req, mwChain, errorMiddleware = null, res = null) {
     return;
   }
 
-  mwChain[0](req, res, (err) => {
+  mwChain[0](req, res, err => {
     if (err) {
-      errorMiddleware(err, req, res, (err) => {
+      errorMiddleware(err, req, res, err => {
         if (err) console.error(`Route ${req.name}`, "error middleware called itself, stack overflow what have ya!");
         else dispatch(req, mwChain.slice(1), errorMiddleware);
       });
-    }
-    else {
+    } else {
       dispatch(req, mwChain.slice(1), errorMiddleware, res);
     }
   });
@@ -32,11 +31,11 @@ function dispatch(req, mwChain, errorMiddleware = null, res = null) {
 function everyImpl(name, interval, delay, callFirst, mwChain) {
   let res = {
     name,
-    dispatch: function () {
+    dispatch: function() {
       console.log(new Date().toUTCString(), `Route ${this.name} started.`);
       dispatch({ name: this.name, unroute: () => this.unroute() }, mwChain);
     },
-    unroute: function () {
+    unroute: function() {
       if (this.inTimeout) clearTimeout(this.handle);
       else clearInterval(this.handle);
     }
@@ -46,15 +45,14 @@ function everyImpl(name, interval, delay, callFirst, mwChain) {
     res.handle = setInterval(() => res.dispatch(), interval);
     res.inTimeout = false;
     if (callFirst) res.dispatch();
-  }
+  };
 
   if (delay === 0) {
     scheduleInterval();
-  }
-  else {
+  } else {
     res.handle = setTimeout(() => {
       scheduleInterval();
-    }, delay)
+    }, delay);
     res.inTimeout = true;
   }
 

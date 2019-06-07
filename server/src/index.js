@@ -1,15 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-import jobs from "./routes/jobs"
-import filterSlots from "./routes/filterSlots"
-import sortCriteriaSlots from "./routes/sortCriteriaSlots"
-import cors from "cors";
+import jobs from "./routes/jobs";
+import filterSlots from "./routes/filterSlots";
+import sortCriteriaSlots from "./routes/sortCriteriaSlots";
 import db from "./db";
 
 const port = 3100;
 const app = express();
 
-app.use(cors());
 app.use(bodyParser.json());
 app.use("/job-dashboard", express.static("public"));
 

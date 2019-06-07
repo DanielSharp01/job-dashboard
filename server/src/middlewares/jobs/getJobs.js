@@ -1,6 +1,6 @@
 import Job from "../../model/Job";
 
-export const renderJobObject = (job) => ({
+export const renderJobObject = job => ({
   id: job._id,
   orgId: job.id,
   organization: job.organization,
@@ -18,8 +18,7 @@ export default async (req, res, next) => {
   try {
     res.jobs = (await Job.find({})).map(renderJobObject);
     return next();
-  }
-  catch (err) {
+  } catch (err) {
     return next(err);
   }
-}
+};
