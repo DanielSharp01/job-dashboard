@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import appConnection from "../db";
 import moment from "moment";
 
 const JobSchema = new Schema({
@@ -15,14 +16,12 @@ const JobSchema = new Schema({
     max: Number
   },
   tags: [String],
-  date: Date,
-  notify: Boolean,
-  read: Boolean
+  date: Date
 });
 
 JobSchema.index({ id: 1, organization: 1 }, { unique: true });
 
-JobSchema.statics.create = function ({ id, organization, name, link, pay }) {
+JobSchema.statics.create = function({ id, organization, name, link, pay }) {
   let res = new this();
   res._id = mongoose.Types.ObjectId();
   res.id = id;
@@ -33,6 +32,6 @@ JobSchema.statics.create = function ({ id, organization, name, link, pay }) {
   res.tags = null;
   res.date = moment();
   return res;
-}
+};
 
-export default mongoose.model("Job", JobSchema);
+export default appConnection.model("Job", JobSchema);

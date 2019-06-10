@@ -1,14 +1,13 @@
-import Job from "../../model/Job";
+import JobState from "../../model/JobState";
 
 export default async (req, res, next) => {
   if (!req.body.id) return next(400); // TODO: Better error handling
   try {
-    let job = await Job.findOne({ _id: req.body.id });
-    job.read = true;
-    await job.save();
+    let jobState = await JobState.findOrCreate({ userId: req.userId, jobId: req.body.id });
+    jobState.read = true;
+    await jobState.save();
     return next();
-  }
-  catch (err) {
+  } catch (err) {
     return next(err);
   }
-}
+};

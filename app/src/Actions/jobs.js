@@ -9,7 +9,7 @@ export function recieveJobs(jobs) {
   return {
     type: RECIEVE_JOBS,
     jobs
-  }
+  };
 }
 
 export function recieveJobsThunk(jobs) {
@@ -20,51 +20,53 @@ export function recieveJobsThunk(jobs) {
       try {
         let res = await fetch("/job-dashboard/jobs/notify-date");
         timestamp = moment((await res.json()).timestamp);
-      }
-      catch (err) {
+      } catch (err) {
         console.error(err);
         timestamp = moment();
       }
-    }
-    else timestamp = moment(timestamp);
+    } else timestamp = moment(timestamp);
 
     dispatch(recieveJobs(jobs));
     let notifyJobs = jobs.filter(j => !j.notify && moment(j.date).isSameOrAfter(timestamp));
     notifyJobs = filterJobs(notifyJobs, getNotificationFilters(getState().filterSlots));
-    dispatch(notifyJobsOnServer(notifyJobs.map(j => j.id)))
-    for (let job of notifyJobs.filter(j => moment(j.date).add(15, "s").isAfter(moment())).sort(dateComparator)) {
+    dispatch(notifyJobsOnServer(notifyJobs.map(j => j.id)));
+    for (let job of notifyJobs
+      .filter(j =>
+        moment(j.date)
+          .add(15, "s")
+          .isAfter(moment())
+      )
+      .sort(dateComparator)) {
       dispatch(popupNotificationThunk(job));
     }
-  }
+  };
 }
 
 export function removeJobs(jobIds) {
   return {
     type: REMOVE_JOBS,
     jobIds
-  }
+  };
 }
 
-
 export const fetchJobs = () => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       let res = await fetch("/job-dashboard/jobs");
       let jobs = await res.json();
       dispatch(recieveJobsThunk(jobs));
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       // TODO: Maybe handle in the future
     }
-  }
-}
+  };
+};
 
 export function markJobRead(jobId) {
   return {
     type: MARK_JOB_READ,
     jobId
-  }
+  };
 }
 
 export function markJobReadOnServer(jobId) {
@@ -75,37 +77,35 @@ export function markJobReadOnServer(jobId) {
       await fetch("/job-dashboard/jobs/mark-read", {
         method: "POST",
         body: JSON.stringify({ id: jobId }),
-        headers: new Headers({ 'content-type': 'application/json' })
+        headers: new Headers({ "content-type": "application/json" })
       });
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       // TODO: Maybe handle in the future
     }
-  }
+  };
 }
 
 export function notifyJob(jobIds) {
   return {
     type: NOTIFY_JOBS,
     jobIds
-  }
+  };
 }
 
 export function notifyJobsOnServer(jobIds) {
-  return async (dispatch) => {
+  return async dispatch => {
     if (jobIds.length === 0) return;
     try {
       dispatch(notifyJob(jobIds));
       await fetch("/job-dashboard/jobs/notify", {
         method: "POST",
         body: JSON.stringify({ ids: jobIds }),
-        headers: new Headers({ 'content-type': 'application/json' })
+        headers: new Headers({ "content-type": "application/json" })
       });
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       // TODO: Maybe handle in the future
     }
-  }
+  };
 }

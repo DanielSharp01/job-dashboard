@@ -1,21 +1,21 @@
 import { renderJobObject } from "./getJobs";
 
-export default (sseSendAll) => async (req, res, next) => {
-
+export default sseSendAll => async (req, res, next) => {
   let modifiedJobs = res.jobs.filter(job => job.isModified());
 
   let promises = [];
   for (let job of modifiedJobs) {
-    promises.push((async () => {
-      try {
-        return await job.save();
-      }
-      catch (err) {
-        console.group(`Route ${req.name}`, `saving ${job.id} of ${job.organization} failed.`);
-        console.error(err);
-        console.groupEnd();
-      }
-    })());
+    promises.push(
+      (async () => {
+        try {
+          return await job.save();
+        } catch (err) {
+          console.group(`Route ${req.name}`, `saving ${job.id} of ${job.organization} failed.`);
+          console.error(err);
+          console.groupEnd();
+        }
+      })()
+    );
   }
 
   console.log(`Route ${req.name}`, `saving ${modifiedJobs.length} jobs.`);

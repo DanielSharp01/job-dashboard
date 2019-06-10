@@ -1,31 +1,23 @@
 import Job from "../../model/Job";
-import Notification from "../../model/Notification";
+import UserState from "../../model/UserState";
 import moment from "moment";
 
 export default async (req, res, next) => {
   if (!req.body.ids) return next(400); // TODO: Better error handling
   try {
-    let notification = await Notification.findOne({});
-    if (!notificaiton) {
-      notification = new Notification();
-      notification.timestamp = moment();
-      await notification.save();
-    }
-    else {
-      notification.timestamp = moment();
-      await notification.save();
-    }
+    let userState = await UserState.findOrCreate({ userId: req.userId });
+    userState.notificationTimestamp = moment();
+    await userState.save();
 
     let promises = [];
-    let jobs = await Job.find({ _id: { $in: req.body.ids } });
-    for (let job of jobs) {
-      job.notify = true;
-      promises.push(job.save());
+    let jobStates = await Promise.all(req.body.ids.map(id => JobState.findOrCreate({ userId: req.userId, jobId: id })));
+    for (let jobState of jobStates) {
+      jobState.notify = true;
+      promises.push(jobState.save());
     }
     await Promise.all(promises);
     return next();
-  }
-  catch (err) {
+  } catch (err) {
     return next(err);
   }
-}
+};

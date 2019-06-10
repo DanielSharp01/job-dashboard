@@ -1,21 +1,15 @@
-import Notification from "../../model/Notification";
+import UserState from "../../model/UserState";
 import moment from "moment";
 
 export default async (req, res, next) => {
   try {
-    let notification;
-    let notifications = await Notification.find({});
-    if (notifications.length === 0) {
-      notification = new Notification();
-      notification.timestamp = moment();
-      await notification.save();
-    }
-    else notification = notifications[0];
-    res.notifyDate = { timestamp: moment(notification.timestamp).format() };
+    let userState = await UserState.findOrCreate({ userId: req.userId });
+    userState.notificationTimestamp = moment();
+    await userState.save();
+    res.notifyDate = { timestamp: moment(userState.notificationTimestamp).format() };
     return next();
-  }
-  catch (err) {
+  } catch (err) {
     res.notifyDate = { timestamp: moment().format() };
     return next();
   }
-}
+};
