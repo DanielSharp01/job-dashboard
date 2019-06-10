@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import appConnection from "../db";
 
 const UserStateSchema = new Schema({
-  userId: Schema.Types.ObjectId,
+  userId: { type: Schema.Types.ObjectId, required: true, unique: true },
   notificationTimestamp: Date
 });
 
