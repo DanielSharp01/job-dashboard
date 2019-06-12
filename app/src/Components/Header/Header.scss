@@ -1,10 +1,8 @@
 @import "../../colors.scss";
 
-header
-{
+header {
   background: $elementBg;
-  h1
-  {
+  h1 {
     padding: 0 10px;
     font-weight: 500;
   }
@@ -15,22 +13,37 @@ header
   flex: 0;
   box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
   z-index: 2;
-  .notification-icon
-  {
+
+  .right-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 36px;
+
+    a {
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    div {
+      margin-left: 16px;
+    }
+  }
+
+  .notification-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     outline: 1px solid lighten($elementBg, 20%);
     width: 48px;
-    margin-right: 32px;
     height: 48px;
     font-size: 20px;
     cursor: pointer;
     position: relative;
 
-    .notification-counter
-    {
+    .notification-counter {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,8 +58,7 @@ header
       position: absolute;
     }
 
-    .notification-panel
-    {
+    .notification-panel {
       position: absolute;
       outline: lighten($elementBg, 20%) 1px solid;
       top: 48px;
@@ -56,8 +68,7 @@ header
     }
   }
 
-  .popup-notification
-  {
+  .popup-notification {
     position: fixed;
     bottom: 60px;
     right: 20px;
@@ -66,11 +77,22 @@ header
     animation-fill-mode: forwards;
   }
 
-  @keyframes popupAnimation
-  {
-    0% { opacity: 0; transform: scaleY(0); }
-    5% { opacity: 1; transform: scaleY(1); }
-    70% { opacity: 1; transform: scaleY(1); }
-    100% { opacity: 0; visibility: hidden; }
+  @keyframes popupAnimation {
+    0% {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    5% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    70% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 }

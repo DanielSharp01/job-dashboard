@@ -1,13 +1,11 @@
 @import "../../colors.scss";
 @import "../Input/inputs.scss";
 
-.filter-list
-{
+.filter-list {
   display: flex;
   flex-direction: column;
 
-  button.add-element
-  {
+  button.add-element {
     @include slick-button($sidenavElemBg);
     align-self: center;
     margin: 10px;
@@ -21,7 +19,6 @@
     flex-direction: row;
 
     input {
-
       flex: 1;
     }
 
@@ -30,8 +27,7 @@
       font-size: 0.6em;
     }
 
-    &.modified
-    {
+    &.modified {
       outline: #bebe26 2px solid;
 
       button.save {
@@ -39,8 +35,7 @@
       }
     }
 
-    &.saved
-    {
+    &.saved {
       outline: #26be3f 2px solid;
 
       button.save {
@@ -48,8 +43,7 @@
       }
     }
 
-    &.saving
-    {
+    &.saving {
       outline: #26be3f83 2px solid;
 
       button.save {

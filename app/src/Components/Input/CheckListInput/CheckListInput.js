@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Textbox from '../Textbox/Textbox';
+import React, { Component } from "react";
+import Textbox from "../Textbox/Textbox";
 import "./CheckListInput.scss";
 
 export default class CheckListInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { newItem: "" }
+    this.state = { newItem: "" };
   }
 
   onTextChanged(text) {
@@ -13,33 +13,38 @@ export default class CheckListInput extends Component {
   }
 
   onAddButtonClicked() {
-    this.props.onAdd && this.props.onAdd(this.state.newItem)
+    this.props.onAdd && this.props.onAdd(this.state.newItem);
     this.setState({ newItem: "" });
   }
 
   render() {
     const { fixed, list, onRemove, onChecked } = this.props;
-    return (<div className="checklist-input">
-      <ul>
-        {
-          list.map(v => (
+    return (
+      <div className="checklist-input">
+        <ul>
+          {list.map(v => (
             <li className="list-item" key={v.name}>
               <label>
                 <input type="checkbox" checked={v.checked} onChange={() => onChecked && onChecked(v.index)} />
                 {v.name}
               </label>
-              {(!fixed && <button className="delete-button" onClick={() => onRemove && onRemove(v.index)}>
-                <i className="fas fa-times"></i>
-              </button>)}
+              {!fixed && (
+                <button className="delete-button" onClick={() => onRemove && onRemove(v.index)}>
+                  <i className="fas fa-times" />
+                </button>
+              )}
             </li>
-          ))
-        }
-      </ul >
-      {!fixed && <div className={"textbox-with-button"}>
-        <Textbox value={this.state.newItem} onChange={(text) => this.onTextChanged(text)} />
-        <button onClick={() => this.onAddButtonClicked()} disabled={this.state.newItem === ""}>Add</button>
+          ))}
+        </ul>
+        {!fixed && (
+          <div className={"textbox-with-button"}>
+            <Textbox value={this.state.newItem} onChange={text => this.onTextChanged(text)} />
+            <button className="delete-button" onClick={() => this.onAddButtonClicked()} disabled={this.state.newItem === ""}>
+              <i className="fas fa-plus" />
+            </button>
+          </div>
+        )}
       </div>
-      }
-    </div >);
+    );
   }
 }

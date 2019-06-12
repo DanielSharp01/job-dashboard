@@ -1,35 +1,49 @@
 @import "../../colors.scss";
 
-html, body
-{
+html,
+body {
   min-height: 100vh;
   overflow: auto;
 }
 
-
-body
-{
+body,
+input,
+select button {
   font-family: "Open Sans";
+}
+
+input,
+select {
+  background: $inputBg;
+}
+
+a {
+  color: $brandColor;
+  text-decoration: none;
+
+  &:hover {
+    color: $foreground;
+  }
+}
+
+body {
   background: $background;
   color: $foreground;
   margin: 0;
 }
 
-#root
-{
+#root {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.wrapper
-{
+.wrapper {
   display: flex;
   flex-direction: row;
   height: 100%;
 }
 
-p
-{
+p {
   margin: 8px 0;
 }

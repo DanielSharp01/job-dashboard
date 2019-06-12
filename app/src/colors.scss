@@ -1,8 +1,9 @@
 $background: #161622;
+$foreground: #efefef;
+$brandColor: #1a5fad;
 $elementBg: darken($background, 2%);
-$tagBg: #1a5fad;
+$tagBg: $brandColor;
 $orgBg: #2d2e6b;
 $sidenavXFg: #18193f;
-$sidenavElemBg: #1a5fad;
-$foreground: #efefef;
-$inputBg: #b1bef6;
+$sidenavElemBg: $brandColor;
+$inputBg: #a8acb4;

@@ -1,24 +1,30 @@
 @import "../inputs.scss";
 
-.checklist-input
-{
-  ul
-  {
+.checklist-input {
+  ul {
     list-style: none;
     padding: 0;
   }
-  li
-  {
+  li {
     position: relative;
     margin: 8px 0;
 
-    button.delete-button
-    {
+    button.delete-button {
       @include slick-button();
       font-size: 0.6em;
-      position:absolute;
+      position: absolute;
       right: 0;
       top: 0;
     }
+  }
+
+  div.textbox-with-button {
+    display: flex;
+    align-items: center;
+  }
+
+  button {
+    margin-left: 6px;
+    @include slick-button();
   }
 }
