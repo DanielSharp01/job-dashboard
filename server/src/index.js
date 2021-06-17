@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 app.use(auth(true, true));
 
-app.get("/job-dashboard/", async (req, res, next) => {
+app.get("/", async (req, res, next) => {
   let loggedInUser = await User.findOne({ _id: req.userId });
   if (!loggedInUser) return next("There was an error!");
   req.session.redirectUrl = req.originalUrl;

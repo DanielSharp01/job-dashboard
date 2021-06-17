@@ -15,14 +15,14 @@ import Job from "../model/Job";
 
 
 export default (app) => {
-  app.get('/job-dashboard/jobs',
+  app.get('jobs',
     getJobs,
     (req, res, next) => { res.send(res.jobs) });
 
-  app.post("/job-dashboard/jobs/mark-read", markJobRead, (req, res, next) => res.send());
+  app.post("jobs/mark-read", markJobRead, (req, res, next) => res.send());
 
-  app.post("/job-dashboard/jobs/notify", notifyJobs, (req, res, next) => res.send());
-  app.get("/job-dashboard/jobs/notify-date", getNotifyDate, (req, res, next) => res.send(res.notifyDate));
+  app.post("/jobs/notify", notifyJobs, (req, res, next) => res.send());
+  app.get("/jobs/notify-date", getNotifyDate, (req, res, next) => res.send(res.notifyDate));
 
   const sseClients = {};
 
@@ -33,7 +33,7 @@ export default (app) => {
   }
 
 
-  app.get('/job-dashboard/job-events', sse(sseClients));
+  app.get('/job-events', sse(sseClients));
 
   every({ name: "Schönherz", interval: 2, unit: "m", delay: 0 },
     (req, res, next) => { req.organizations = [req.name], res.requestHtml = {}; res.jobs = []; return next(); },

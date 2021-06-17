@@ -21,7 +21,7 @@ export function recieveSortCriteriaSlots(slots) {
 export function fetchSortCriteriaSlots() {
   return async (dispatch) => {
     try {
-      let res = await fetch("/job-dashboard/sort-criteria-slots");
+      let res = await fetch("/sort-criteria-slots");
       let slots = await res.json();
       dispatch(recieveSortCriteriaSlots(slots));
     }
@@ -65,7 +65,7 @@ export function renameSortCriteriaSlotOnServer() {
       dispatch(renameSortCriteriaSlot());
       let body = { slot: selectedSlot }
       if (!getState().sortCriteriaSlots.slots[selectedSlot].saved) return;
-      await fetch("/job-dashboard/sort-criteria-slots", {
+      await fetch("/sort-criteria-slots", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
@@ -84,7 +84,7 @@ export function removeSortCriteriaSlot() {
     try {
       let body = { slot: getState().sortCriteriaSlots.selectedSlot }
       dispatch({ type: REMOVE_SORT_CRITERIA_SLOT });
-      await fetch("/job-dashboard/sort-criteria-slots", {
+      await fetch("/sort-criteria-slots", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
@@ -109,7 +109,7 @@ export function saveSortCriteriaSlot() {
     try {
       dispatch(savingSortCriteriaSlot(sortCriteria.selectedSlot));
       let body = { slot: sortCriteria.selectedSlot, content: getSortCriteria(sortCriteria) }
-      await fetch("/job-dashboard/sort-criteria-slots", {
+      await fetch("/sort-criteria-slots", {
         method: "POST",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })

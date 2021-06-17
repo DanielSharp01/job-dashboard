@@ -21,7 +21,7 @@ export function recieveFilterSlots(slots) {
 export function fetchFilterSlots() {
   return async (dispatch) => {
     try {
-      let res = await fetch("/job-dashboard/filter-slots");
+      let res = await fetch("/filter-slots");
       let slots = await res.json();
       dispatch(recieveFilterSlots(slots));
     }
@@ -65,7 +65,7 @@ export function renameFilterSlotOnServer() {
       dispatch(renameFilterSlot());
       let body = { slot: selectedSlot }
       if (!getState().filterSlots.slots[selectedSlot].saved) return;
-      await fetch("/job-dashboard/filter-slots", {
+      await fetch("/filter-slots", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
@@ -84,7 +84,7 @@ export function removeFilterSlot() {
     try {
       let body = { slot: getState().filterSlots.selectedSlot }
       dispatch({ type: REMOVE_FILTER_SLOT });
-      await fetch("/job-dashboard/filter-slots", {
+      await fetch("/filter-slots", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
@@ -109,7 +109,7 @@ export function saveFilterSlot() {
     try {
       dispatch(savingFilterSlot(filterSlots.selectedSlot));
       let body = { slot: filterSlots.selectedSlot, content: getFilters(filterSlots) };
-      await fetch("/job-dashboard/filter-slots", {
+      await fetch("/filter-slots", {
         method: "POST",
         body: JSON.stringify(body),
         headers: new Headers({ 'content-type': 'application/json' })
