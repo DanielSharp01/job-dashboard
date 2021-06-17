@@ -18,7 +18,7 @@ export function recieveJobsThunk(jobs) {
     if (!timestamp) {
       dispatch(notifyJob([]));
       try {
-        let res = await fetch("/jobs/notify-date");
+        let res = await fetch("jobs/notify-date");
         timestamp = moment((await res.json()).timestamp);
       } catch (err) {
         console.error(err);
@@ -52,7 +52,7 @@ export function removeJobs(jobIds) {
 export const fetchJobs = () => {
   return async dispatch => {
     try {
-      let res = await fetch("/jobs");
+      let res = await fetch("jobs");
       let jobs = await res.json();
       dispatch(recieveJobsThunk(jobs));
     } catch (err) {
@@ -74,7 +74,7 @@ export function markJobReadOnServer(jobId) {
     try {
       if (getState().jobs[jobId].read) return;
       dispatch(markJobRead(jobId));
-      await fetch("/jobs/mark-read", {
+      await fetch("jobs/mark-read", {
         method: "POST",
         body: JSON.stringify({ id: jobId }),
         headers: new Headers({ "content-type": "application/json" })
@@ -98,7 +98,7 @@ export function notifyJobsOnServer(jobIds) {
     if (jobIds.length === 0) return;
     try {
       dispatch(notifyJob(jobIds));
-      await fetch("/jobs/notify", {
+      await fetch("jobs/notify", {
         method: "POST",
         body: JSON.stringify({ ids: jobIds }),
         headers: new Headers({ "content-type": "application/json" })
